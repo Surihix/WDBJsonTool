@@ -2,7 +2,7 @@
   "profiles": {
     "WDBJsonTool": {
       "commandName": "Project",
-      "commandLineArgs": "-e \"r_white.wdb\""
+      "commandLineArgs": "-e \"savepoint.wdb\""
     }
   }
 }

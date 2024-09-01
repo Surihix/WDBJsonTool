@@ -5,14 +5,14 @@ namespace WDBJsonTool.Extraction
 {
     internal class ExtractionMain
     {
-        public static void StartExtraction(string inFile)
+        public static void StartExtraction(string inWDBfile)
         {
             var wdbVars = new WDBVariables();
 
-            using (var wdbReader = new BinaryReader(File.Open(inFile, FileMode.Open, FileAccess.Read, FileShare.Read)))
+            using (var wdbReader = new BinaryReader(File.Open(inWDBfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {
-                wdbVars.WDBName = Path.GetFileNameWithoutExtension(inFile);
-                wdbVars.JsonName = Path.Combine(Path.GetDirectoryName(inFile), wdbVars.WDBName + ".json");
+                wdbVars.WDBName = Path.GetFileNameWithoutExtension(inWDBfile);
+                wdbVars.JsonName = Path.Combine(Path.GetDirectoryName(inWDBfile), wdbVars.WDBName + ".json");
 
                 _ = wdbReader.BaseStream.Position = 0;
                 if (wdbReader.ReadBytesString(3, false) != "WPD")

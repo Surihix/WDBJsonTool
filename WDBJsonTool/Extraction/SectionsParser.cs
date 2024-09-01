@@ -26,17 +26,6 @@ namespace WDBJsonTool.Extraction
                 // not a valid "!" section
                 if (!sectioNameRead.StartsWith("!"))
                 {
-                    if (wdbVars.SheetName == "")
-                    {
-                        wdbVars.SheetName = wdbVars.SheetNameSectionName;
-
-                        Console.WriteLine("");
-                        Console.WriteLine("");
-                        Console.WriteLine($"{wdbVars.SheetNameSectionName}: {wdbVars.SheetName}");
-                        Console.WriteLine("");
-                        Console.WriteLine("");
-                    }
-
                     _ = wdbReader.BaseStream.Position = currentSectionNamePos;
                     break;
                 }
@@ -127,7 +116,7 @@ namespace WDBJsonTool.Extraction
 
             if (wdbVars.SheetName == "" || wdbVars.SheetName == null)
             {
-                wdbVars.SheetName = wdbVars.WDBName;
+                wdbVars.SheetName = wdbVars.SheetNameSectionName;
             }
 
             Console.WriteLine("");

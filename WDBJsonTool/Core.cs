@@ -1,4 +1,5 @@
-﻿using WDBJsonTool.Extraction;
+﻿using WDBJsonTool.Conversion;
+using WDBJsonTool.Extraction;
 using WDBJsonTool.Support;
 
 namespace WDBJsonTool
@@ -54,6 +55,7 @@ namespace WDBJsonTool
                     break;
 
                 case ActionSwitches.c:
+                    ConversionMain.StartConversion(inFile);
                     break;
             }
 
