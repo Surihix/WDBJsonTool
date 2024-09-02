@@ -70,6 +70,31 @@ namespace WDBJsonTool.Conversion
 
             wdbVars.HasStrArraySection = jsonReader.GetBoolean();
 
+            if (wdbVars.HasStrArraySection)
+            {
+                // Get bitsPerOffset value
+                JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "bitsPerOffset");
+
+                if (jsonReader.GetString() != "bitsPerOffset")
+                {
+                    SharedMethods.ErrorExit("Missing bitsPerOffset property at expected position");
+                }
+
+                JsonMethods.CheckJsonTokenType("Number", ref jsonReader, "bitsPerOffset");
+                wdbVars.BitsPerOffset = jsonReader.GetByte();
+
+                // Get offsetsPerValue value
+                JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "offsetsPerValue");
+
+                if (jsonReader.GetString() != "offsetsPerValue")
+                {
+                    SharedMethods.ErrorExit("Missing offsetsPerValue property at expected position");
+                }
+
+                JsonMethods.CheckJsonTokenType("Number", ref jsonReader, "offsetsPerValue");
+                wdbVars.OffsetsPerValue = jsonReader.GetByte();
+            }
+
 
             // Check and determine how to parse
             // strtypelist

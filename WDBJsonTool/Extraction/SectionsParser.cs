@@ -168,6 +168,16 @@ namespace WDBJsonTool.Extraction
             jsonWriter.WriteBoolean("hasStrArray", wdbVars.HasStrArraySection);
 
 
+            // Write array info values
+            // if strArray section is
+            // present
+            if (wdbVars.HasStrArraySection)
+            {
+                jsonWriter.WriteNumber("bitsPerOffset", wdbVars.BitsPerOffset);
+                jsonWriter.WriteNumber("offsetsPerValue", wdbVars.OffsetsPerValue);
+            }
+
+
             // Parse and write the strtypelistData
             jsonWriter.WriteBoolean("isStrTypelistV1", wdbVars.parseStrtypelistAsV1);
 
