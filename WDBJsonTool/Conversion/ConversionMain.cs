@@ -8,7 +8,7 @@ namespace WDBJsonTool.Conversion
         {
             var wdbVars = new WDBVariables();
 
-
+            JsonDeserializer.DeserializeData(inJsonFile, wdbVars);
         }
     }
 }

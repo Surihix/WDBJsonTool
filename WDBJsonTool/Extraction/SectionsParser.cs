@@ -169,7 +169,7 @@ namespace WDBJsonTool.Extraction
 
 
             // Parse and write the strtypelistData
-            jsonWriter.WriteBoolean("isStrTypelistV1", wdbVars.HasStrArraySection);
+            jsonWriter.WriteBoolean("isStrTypelistV1", wdbVars.parseStrtypelistAsV1);
 
             if (wdbVars.parseStrtypelistAsV1)
             {
