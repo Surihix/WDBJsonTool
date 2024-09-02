@@ -1,8 +1,0 @@
-{
-  "profiles": {
-    "WDBJsonTool": {
-      "commandName": "Project",
-      "commandLineArgs": "-c \"r_dlc.json\""
-    }
-  }
-}
