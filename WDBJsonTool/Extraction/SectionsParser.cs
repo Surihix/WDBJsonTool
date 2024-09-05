@@ -136,12 +136,10 @@ namespace WDBJsonTool.Extraction
 
                 if (derivedString == "")
                 {
-                    wdbVars.Fields[sf] = "{null}";
+                    SharedMethods.ErrorExit("Detected a null string structitem.");
                 }
-                else
-                {
-                    wdbVars.Fields[sf] = derivedString;
-                }
+
+                wdbVars.Fields[sf] = derivedString;
 
                 stringStartPos += Encoding.UTF8.GetByteCount(derivedString) + 1;
             }
