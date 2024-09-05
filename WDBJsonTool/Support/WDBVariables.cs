@@ -8,14 +8,17 @@
         public uint RecordCount;
         public bool HasStrArraySection;
         public bool HasStringSection;
-        public bool parseStrtypelistAsV1;
-        public bool hasTypelistSection;
+        public bool ParseStrtypelistAsV1;
+        public bool HasTypelistSection;
         public string[]? Fields;
         public List<uint> StrArrayOffsets = new List<uint>();
         public List<string> NumStringFields = new List<string>();
         public List<string> ProcessStringsList = new List<string>();
         public Dictionary<string, List<string>> StrArrayDict = new Dictionary<string, List<string>>();
         public List<int> StrtypelistValues = new List<int>();
+        public uint CompleteRecordCount;
+        public Dictionary<string, List<object>> RecordsDataDict = new Dictionary<string, List<object>>();
+        public Dictionary<uint, byte[]> StringsDataDict = new Dictionary<uint, byte[]>();
 
         // Section names
         public string SheetNameSectionName = "!!sheetname";

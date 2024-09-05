@@ -9,6 +9,11 @@ namespace WDBJsonTool.Conversion
             var wdbVars = new WDBVariables();
 
             JsonDeserializer.DeserializeData(inJsonFile, wdbVars);
+
+            Console.WriteLine("");
+            Console.WriteLine($"{wdbVars.SheetNameSectionName}: {wdbVars.SheetName}");
+            Console.WriteLine($"Total records: {wdbVars.CompleteRecordCount}");
+            Console.WriteLine("");
         }
     }
 }

@@ -59,7 +59,7 @@ namespace WDBJsonTool.Extraction
                 // !!strtypelist
                 if (sectioNameRead == wdbVars.StrtypelistSectionName)
                 {
-                    wdbVars.parseStrtypelistAsV1 = true;
+                    wdbVars.ParseStrtypelistAsV1 = true;
                     wdbVars.StrtypelistData = SharedMethods.SaveSectionData(wdbReader, false);
                     wdbVars.RecordCount--;
                 }
@@ -67,7 +67,7 @@ namespace WDBJsonTool.Extraction
                 // !!strtypelistb
                 if (sectioNameRead == wdbVars.StrtypelistbSectionName)
                 {
-                    wdbVars.parseStrtypelistAsV1 = false;
+                    wdbVars.ParseStrtypelistAsV1 = false;
                     wdbVars.StrtypelistData = SharedMethods.SaveSectionData(wdbReader, false);
                     wdbVars.RecordCount--;
                 }
@@ -75,7 +75,7 @@ namespace WDBJsonTool.Extraction
                 // !!typelist
                 if (sectioNameRead == wdbVars.TypelistSectionName)
                 {
-                    wdbVars.hasTypelistSection = true;
+                    wdbVars.HasTypelistSection = true;
                     wdbVars.TypelistData = SharedMethods.SaveSectionData(wdbReader, false);
                     wdbVars.RecordCount--;
                 }
@@ -177,9 +177,9 @@ namespace WDBJsonTool.Extraction
 
 
             // Parse and write the strtypelistData
-            jsonWriter.WriteBoolean("isStrTypelistV1", wdbVars.parseStrtypelistAsV1);
+            jsonWriter.WriteBoolean("isStrTypelistV1", wdbVars.ParseStrtypelistAsV1);
 
-            if (wdbVars.parseStrtypelistAsV1)
+            if (wdbVars.ParseStrtypelistAsV1)
             {
                 jsonWriter.WriteStartArray(wdbVars.StrtypelistSectionName);
             }
@@ -190,13 +190,13 @@ namespace WDBJsonTool.Extraction
 
             var strtypelistbIndex = 0;
             var currentStrtypelistData = new byte[4];
-            var strtypelistIndexAdjust = wdbVars.parseStrtypelistAsV1 ? 4 : 1;
-            var strTypelistValueCount = wdbVars.parseStrtypelistAsV1 ? wdbVars.StrtypelistData.Length / 4 : wdbVars.StrtypelistData.Length;
+            var strtypelistIndexAdjust = wdbVars.ParseStrtypelistAsV1 ? 4 : 1;
+            var strTypelistValueCount = wdbVars.ParseStrtypelistAsV1 ? wdbVars.StrtypelistData.Length / 4 : wdbVars.StrtypelistData.Length;
             int strtypelistValue;
 
             for (int s = 0; s < strTypelistValueCount; s++)
             {
-                if (wdbVars.parseStrtypelistAsV1)
+                if (wdbVars.ParseStrtypelistAsV1)
                 {
                     Array.ConstrainedCopy(wdbVars.StrtypelistData, strtypelistbIndex, currentStrtypelistData, 0, 4);
                     Array.Reverse(currentStrtypelistData);
@@ -216,8 +216,8 @@ namespace WDBJsonTool.Extraction
 
 
             // Write all the typelist data
-            jsonWriter.WriteBoolean("hasTypelist", wdbVars.hasTypelistSection);
-            if (wdbVars.hasTypelistSection)
+            jsonWriter.WriteBoolean("hasTypelist", wdbVars.HasTypelistSection);
+            if (wdbVars.HasTypelistSection)
             {
                 jsonWriter.WriteStartArray(wdbVars.TypelistSectionName);
 
