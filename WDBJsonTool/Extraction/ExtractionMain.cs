@@ -72,7 +72,7 @@ namespace WDBJsonTool.Extraction
 
             Console.WriteLine("");
             Console.WriteLine("");
-            Console.WriteLine("Finished parsing records");
+            Console.WriteLine("Finished extracting wdb data to json file");
         }
     }
 }

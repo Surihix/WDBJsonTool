@@ -20,6 +20,23 @@ namespace WDBJsonTool.Conversion
             Thread.Sleep(1000);
 
             RecordsConversion.ConvertRecords(wdbVars);
+
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Building wdb file....");
+
+            if (wdbVars.HasStrArraySection)
+            {
+                WDBbuilder.BuildWDBStrArray(wdbVars);
+            }
+            else
+            {
+                WDBbuilder.BuildWDB(wdbVars);
+            }
+
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Finished building wdb file for extracted json data");
         }
     }
 }
