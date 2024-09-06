@@ -45,7 +45,7 @@ namespace WDBJsonTool.Conversion
                 case "String":
                     if (jsonReader.TokenType != JsonTokenType.String)
                     {
-                        SharedMethods.ErrorExit($"{property} type is not a string");
+                        SharedMethods.ErrorExit($"Specified {property} property's value is not a string");
                     }
                     break;
             }

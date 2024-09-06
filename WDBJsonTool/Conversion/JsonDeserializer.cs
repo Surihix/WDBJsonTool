@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System.Text;
+using System.Text.Json;
 using WDBJsonTool.Support;
 
 namespace WDBJsonTool.Conversion
@@ -8,6 +9,7 @@ namespace WDBJsonTool.Conversion
         public static void DeserializeData(string inJsonFile, WDBVariables wdbVars)
         {
             var jsonData = File.ReadAllBytes(inJsonFile);
+            wdbVars.WDBName = Path.Combine(Path.GetDirectoryName(inJsonFile), Path.GetFileNameWithoutExtension(inJsonFile) + ".wdb");
 
             var options = new JsonReaderOptions
             {
@@ -45,7 +47,7 @@ namespace WDBJsonTool.Conversion
 
             // Get sheetName
             JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, wdbVars.SheetNameSectionName);
-            wdbVars.CompleteRecordCount++;
+            wdbVars.TotalRecordCount++;
 
             if (jsonReader.GetString() != wdbVars.SheetNameSectionName)
             {
@@ -58,9 +60,13 @@ namespace WDBJsonTool.Conversion
 
             if (wdbVars.SheetName == wdbVars.SheetNameSectionName)
             {
-                wdbVars.CompleteRecordCount--;
-
-                wdbVars.SheetName = "";
+                wdbVars.TotalRecordCount--;
+                wdbVars.SheetName = "Not Specified";
+            }
+            else
+            {
+                wdbVars.SheetName += "\0";
+                wdbVars.SheetNameData = Encoding.UTF8.GetBytes(wdbVars.SheetName);
             }
 
 
@@ -79,7 +85,7 @@ namespace WDBJsonTool.Conversion
 
             if (wdbVars.HasStrArraySection)
             {
-                wdbVars.CompleteRecordCount += 3;
+                wdbVars.TotalRecordCount += 3;
 
                 // Get bitsPerOffset value
                 JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "bitsPerOffset");
@@ -102,13 +108,17 @@ namespace WDBJsonTool.Conversion
 
                 JsonMethods.CheckJsonTokenType("Number", ref jsonReader, "offsetsPerValue");
                 wdbVars.OffsetsPerValue = jsonReader.GetByte();
+
+                wdbVars.StrArrayInfoData = new byte[4];
+                wdbVars.StrArrayInfoData[2] = wdbVars.OffsetsPerValue;
+                wdbVars.StrArrayInfoData[3] = wdbVars.BitsPerOffset;
             }
 
 
             // Check and determine how to parse
             // strtypelist
             JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "isStrTypelistV1");
-            wdbVars.CompleteRecordCount++;
+            wdbVars.TotalRecordCount++;
 
             if (jsonReader.GetString() != "isStrTypelistV1")
             {
@@ -133,6 +143,17 @@ namespace WDBJsonTool.Conversion
 
             wdbVars.StrtypelistValues = JsonMethods.GetNumbersFromArrayProperty(ref jsonReader, strtypelistSecNameProcess);
 
+            if (wdbVars.ParseStrtypelistAsV1)
+            {
+                wdbVars.StrtypelistData = new byte[wdbVars.StrtypelistValues.Count * 4];
+                wdbVars.StrtypelistData = SharedMethods.CreateArrayFromIntList(wdbVars.StrtypelistValues, 4);
+            }
+            else
+            {
+                wdbVars.StrtypelistData = new byte[wdbVars.StrtypelistValues.Count];
+                wdbVars.StrtypelistData = SharedMethods.CreateArrayFromIntList(wdbVars.StrtypelistValues, 1);
+            }
+
 
             // Check if typelist is
             // present 
@@ -149,7 +170,7 @@ namespace WDBJsonTool.Conversion
 
             if (wdbVars.HasTypelistSection)
             {
-                wdbVars.CompleteRecordCount++;
+                wdbVars.TotalRecordCount++;
 
                 // Get typelist values
                 JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, wdbVars.TypelistSectionName);
@@ -158,26 +179,13 @@ namespace WDBJsonTool.Conversion
                 var typelistValues = JsonMethods.GetNumbersFromArrayProperty(ref jsonReader, wdbVars.TypelistSectionName);
 
                 wdbVars.TypelistData = new byte[typelistValues.Count * 4];
-                byte[] currentValue;
-                var index = 0;
-
-                for (int i = 0; i < typelistValues.Count; i++)
-                {
-                    currentValue = BitConverter.GetBytes(typelistValues[i]);
-
-                    wdbVars.TypelistData[index] = currentValue[3];
-                    wdbVars.TypelistData[index + 1] = currentValue[2];
-                    wdbVars.TypelistData[index + 2] = currentValue[1];
-                    wdbVars.TypelistData[index + 3] = currentValue[0];
-
-                    index += 4;
-                }
+                wdbVars.TypelistData = SharedMethods.CreateArrayFromIntList(typelistValues, 4);
             }
 
 
             // Get version
             JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, wdbVars.VersionSectionName);
-            wdbVars.CompleteRecordCount++;
+            wdbVars.TotalRecordCount++;
 
             if (jsonReader.GetString() != wdbVars.VersionSectionName)
             {
@@ -193,12 +201,51 @@ namespace WDBJsonTool.Conversion
             // Get structitem values
             JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, wdbVars.StructItemSectionName);
             JsonMethods.CheckJsonTokenType("Array", ref jsonReader, wdbVars.StructItemSectionName);
-            wdbVars.CompleteRecordCount += 2;
+            wdbVars.TotalRecordCount += 2;
 
             wdbVars.Fields = JsonMethods.GetStringsFromArrayProperty(ref jsonReader, wdbVars.StructItemSectionName).ToArray();
             wdbVars.FieldCount = (uint)wdbVars.Fields.Length;
+            var structItemsList = new List<byte>();
 
-            wdbVars.CompleteRecordCount += wdbVars.RecordCount;
+            for (int i = 0; i < wdbVars.FieldCount; i++)
+            {
+                structItemsList.AddRange(Encoding.UTF8.GetBytes(wdbVars.Fields[i] + "\0"));
+            }
+
+            wdbVars.StructItemData = structItemsList.ToArray();
+            wdbVars.StructItemNumData = BitConverter.GetBytes(wdbVars.FieldCount);
+            Array.Reverse(wdbVars.StructItemNumData);
+
+            wdbVars.TotalRecordCount += wdbVars.RecordCount;
+
+
+            // Determine whether there is
+            // a string section
+            if (!wdbVars.HasStringSection)
+            {
+                if (wdbVars.HasStrArraySection)
+                {
+                    wdbVars.HasStringSection = true;
+                    wdbVars.TotalRecordCount++;
+                }
+                else if (wdbVars.StrtypelistValues.Contains(2))
+                {
+                    wdbVars.HasStringSection = true;
+                    wdbVars.TotalRecordCount++;
+                }
+                else
+                {
+                    for (int f = 0; f < wdbVars.FieldCount; f++)
+                    {
+                        if (wdbVars.Fields[f].StartsWith("s"))
+                        {
+                            wdbVars.HasStringSection = true;
+                            wdbVars.TotalRecordCount++;
+                            break;
+                        }
+                    }
+                }
+            }
         }
 
 
@@ -209,7 +256,7 @@ namespace WDBJsonTool.Conversion
             JsonMethods.CheckJsonTokenType("Array", ref jsonReader, "records");
 
             var recordName = string.Empty;
-            var hasStringSection = false;
+            string fieldName;
 
             for (int i = 0; i < wdbVars.RecordCount; i++)
             {
@@ -232,6 +279,18 @@ namespace WDBJsonTool.Conversion
                 _ = jsonReader.Read();
                 _ = jsonReader.Read();
 
+                if (jsonReader.TokenType != JsonTokenType.String)
+                {
+                    if (recordName == "")
+                    {
+                        SharedMethods.ErrorExit("The first record's property value does not begin with a valid name");
+                    }
+                    else
+                    {
+                        SharedMethods.ErrorExit($"Invalid property value specified for 'record' property. previous record read was {recordName}");
+                    }
+                }
+
                 recordName = jsonReader.GetString();
                 var currentDataList = new List<object>();
 
@@ -239,24 +298,34 @@ namespace WDBJsonTool.Conversion
                 for (int f = 0; f < wdbVars.FieldCount; f++)
                 {
                     _ = jsonReader.Read();
-                    if (jsonReader.GetString().StartsWith("s"))
+
+                    if (jsonReader.TokenType != JsonTokenType.PropertyName)
                     {
-                        // Determine whether to
-                        // increase record count
-                        // if string section is
-                        // present
-                        if (!hasStringSection)
+                        SharedMethods.ErrorExit($"Field name PropertyType was invalid. occured when parsing {recordName} data.");
+                    }
+
+                    fieldName = jsonReader.GetString();
+
+                    if (fieldName.StartsWith("s"))
+                    {
+                        _ = jsonReader.Read();
+
+                        if (jsonReader.TokenType != JsonTokenType.String)
                         {
-                            hasStringSection = true;
-                            wdbVars.CompleteRecordCount++;
+                            SharedMethods.ErrorExit($"{fieldName} property's value was invalid. occured when parsing {recordName} data.");
                         }
 
-                        _ = jsonReader.Read();
                         currentDataList.Add(jsonReader.GetString());
                     }
                     else
                     {
                         _ = jsonReader.Read();
+
+                        if (jsonReader.TokenType != JsonTokenType.Number)
+                        {
+                            SharedMethods.ErrorExit($"{fieldName} property's value was invalid. occured when parsing {recordName} data.");
+                        }
+
                         currentDataList.Add(jsonReader.GetDecimal());
                     }
                 }

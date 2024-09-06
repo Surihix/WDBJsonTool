@@ -16,7 +16,7 @@
         public List<string> ProcessStringsList = new List<string>();
         public Dictionary<string, List<string>> StrArrayDict = new Dictionary<string, List<string>>();
         public List<int> StrtypelistValues = new List<int>();
-        public uint CompleteRecordCount;
+        public uint TotalRecordCount;
         public Dictionary<string, List<object>> RecordsDataDict = new Dictionary<string, List<object>>();
         public Dictionary<uint, byte[]> StringsDataDict = new Dictionary<uint, byte[]>();
 
@@ -35,7 +35,9 @@
 
         // Section data
         public string? SheetName;
+        public byte[]? SheetNameData;
         public byte[]? StrArrayData;
+        public byte[]? StrArrayInfoData;
         public byte OffsetsPerValue;
         public byte BitsPerOffset;
         public byte[]? StrArrayListData;
@@ -44,6 +46,7 @@
         public byte[]? TypelistData;
         public byte[]? VersionData;
         public byte[]? StructItemData;
+        public byte[]? StructItemNumData;
         public uint FieldCount;
     }
 }

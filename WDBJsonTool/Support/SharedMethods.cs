@@ -115,5 +115,34 @@ namespace WDBJsonTool.Support
 
             return BitConverter.ToSingle(processArray, 0);
         }
+
+
+        public static byte[] CreateArrayFromIntList(List<int> intList, int perValueSize)
+        {
+            var count = intList.Count;
+            var dataArray = new byte[perValueSize * count];
+            var index = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                switch (perValueSize)
+                {
+                    case 1:
+                        dataArray[i] = (byte)intList[i];
+                        break;
+
+                    case 4:
+                        var currentVal = BitConverter.GetBytes((uint)intList[i]);
+                        dataArray[index] = currentVal[3];
+                        dataArray[index + 1] = currentVal[2];
+                        dataArray[index + 2] = currentVal[1];
+                        dataArray[index + 3] = currentVal[0];
+                        index += 4;
+                        break;
+                }
+            }
+
+            return dataArray;
+        }
     }
 }
