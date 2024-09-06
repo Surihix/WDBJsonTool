@@ -20,6 +20,18 @@
     }
 
 
+    public static string UIntToBinaryPadded(this uint valToParse, int padLength)
+    {
+        return Convert.ToString(valToParse, 2).PadLeft(padLength, '0');
+    }
+
+
+    public static string IntToBinaryPadded(this int valToParse, int padLength)
+    {
+        return Convert.ToString(valToParse, 2).PadLeft(padLength, '0');
+    }
+
+
     public static uint BinaryToUInt(this string binaryVal, int startPosition, int count)
     {
         return Convert.ToUInt32(binaryVal.Substring(startPosition, count), 2);

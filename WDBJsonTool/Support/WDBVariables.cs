@@ -11,14 +11,15 @@
         public bool ParseStrtypelistAsV1;
         public bool HasTypelistSection;
         public string[]? Fields;
-        public List<uint> StrArrayOffsets = new List<uint>();
-        public List<string> NumStringFields = new List<string>();
-        public List<string> ProcessStringsList = new List<string>();
-        public Dictionary<string, List<string>> StrArrayDict = new Dictionary<string, List<string>>();
-        public List<int> StrtypelistValues = new List<int>();
+        public List<uint> StrArrayOffsets = new();
+        public List<string> NumStringFields = new();
+        public List<string> ProcessStringsList = new();
+        public Dictionary<string, List<string>> StrArrayDict = new();
+        public List<int> StrtypelistValues = new();
         public uint TotalRecordCount;
-        public Dictionary<string, List<object>> RecordsDataDict = new Dictionary<string, List<object>>();
-        public Dictionary<uint, byte[]> StringsDataDict = new Dictionary<uint, byte[]>();
+        public Dictionary<string, List<object>> RecordsDataDict = new();
+        public Dictionary<string, uint> ProcessedStringsDict = new();
+        public Dictionary<string, byte[]> OutPerRecordData = new();
 
         // Section names
         public string SheetNameSectionName = "!!sheetname";
