@@ -46,6 +46,10 @@ namespace WDBJsonTool
                 case ".json":
                     ConversionMain.StartConversion(inFile);
                     break;
+
+                default:
+                    SharedMethods.ErrorExit("Specified file type is not supported");
+                    break;
             }
 
             Environment.Exit(0);

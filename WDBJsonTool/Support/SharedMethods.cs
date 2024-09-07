@@ -7,6 +7,9 @@ namespace WDBJsonTool.Support
         public static void ErrorExit(string errorMsg)
         {
             Console.WriteLine($"Error: {errorMsg}");
+            #if !DEBUG
+            Console.ReadLine();
+            #endif
             Environment.Exit(1);
         }
 

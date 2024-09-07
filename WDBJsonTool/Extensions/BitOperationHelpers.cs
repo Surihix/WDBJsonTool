@@ -20,15 +20,15 @@
     }
 
 
-    public static string UIntToBinaryPadded(this uint valToParse, int padLength)
+    public static string UIntToBinaryFixed(this uint valToParse, int fixAmount)
     {
-        return Convert.ToString(valToParse, 2).PadLeft(padLength, '0');
+        return Convert.ToString(valToParse, 2).PadLeft(fixAmount, '0');
     }
 
 
-    public static string IntToBinaryPadded(this int valToParse, int padLength)
+    public static string IntToBinaryFixed(this int valToParse, int fixAmount)
     {
-        return Convert.ToString(valToParse, 2).PadLeft(padLength, '0');
+        return Convert.ToString(valToParse, 2).PadLeft(fixAmount, '0');
     }
 
 

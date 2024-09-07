@@ -36,7 +36,7 @@ namespace WDBJsonTool.Conversion
                         switch (wdbVars.StrtypelistValues[strtypelistIndex])
                         {
                             case 0:
-                                int iTypedataVal;
+                                int iTypeDataVal;
                                 uint uTypeDataVal;
 
                                 while (fieldBitsToProcess != 0 && f < wdbVars.FieldCount)
@@ -48,8 +48,10 @@ namespace WDBJsonTool.Conversion
                                     {
                                         // sint
                                         case "i":
-                                            iTypedataVal = Convert.ToInt32(recordData.Value[f]);
-                                            Console.WriteLine($"{wdbVars.Fields[f]}: {iTypedataVal}");
+                                            iTypeDataVal = Convert.ToInt32(recordData.Value[f]);
+                                            ValidateInt(fieldNum, ref iTypeDataVal);
+
+                                            Console.WriteLine($"{wdbVars.Fields[f]}: {iTypeDataVal}");
 
                                             if (fieldNum == 0)
                                             {
@@ -64,7 +66,7 @@ namespace WDBJsonTool.Conversion
                                             }
                                             else
                                             {
-                                                var iTypedataValBinary = iTypedataVal.IntToBinaryPadded(fieldNum);
+                                                var iTypedataValBinary = iTypeDataVal.IntToBinaryFixed(fieldNum);
 
                                                 if (iTypedataValBinary.Length > fieldNum)
                                                 {
@@ -87,6 +89,8 @@ namespace WDBJsonTool.Conversion
                                         // uint 
                                         case "u":
                                             uTypeDataVal = Convert.ToUInt32(recordData.Value[f]);
+                                            ValidateUInt(fieldNum, ref uTypeDataVal);
+
                                             Console.WriteLine($"{wdbVars.Fields[f]}: {uTypeDataVal}");
 
                                             if (fieldNum == 0)
@@ -102,7 +106,7 @@ namespace WDBJsonTool.Conversion
                                             }
                                             else
                                             {
-                                                var uTypedataValBinary = uTypeDataVal.UIntToBinaryPadded(fieldNum).Reverse();
+                                                var uTypedataValBinary = uTypeDataVal.UIntToBinaryFixed(fieldNum).Reverse();
                                                 collectedBinaryList.AddRange(uTypedataValBinary);
 
                                                 fieldBitsToProcess -= fieldNum;
@@ -204,6 +208,44 @@ namespace WDBJsonTool.Conversion
                     Console.WriteLine("");
 
                     wdbVars.OutPerRecordData.Add(recordData.Key, currentOutData);
+                }
+            }
+        }
+
+
+
+        private static void ValidateUInt(int fieldNum, ref uint value)
+        {
+            var maxValue = Convert.ToUInt32(new string('1', fieldNum), 2);
+
+            if (value > maxValue)
+            {
+                value = 0;
+            }
+        }
+
+
+        private static void ValidateInt(int fieldNum, ref int value)
+        {
+            if (value < 0)
+            {
+                var valueBinary = Convert.ToString(value, 2);
+                valueBinary = valueBinary.Substring(valueBinary.Length - fieldNum, fieldNum);
+
+                var newValue = valueBinary.BinaryToInt(0, fieldNum);
+
+                if (newValue != value)
+                {
+                    value = 0;
+                }
+            }
+            else
+            {
+                var maxValue = Convert.ToInt32(new string('1', fieldNum), 2);
+
+                if (value > maxValue)
+                {
+                    value = 0;
                 }
             }
         }
