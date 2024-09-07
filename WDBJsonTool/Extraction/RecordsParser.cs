@@ -38,8 +38,7 @@ namespace WDBJsonTool.Extraction
 
                             int iTypedataVal;
                             uint uTypeDataVal;
-                            //float fTypeDataVal;
-                            string fTypeBinary;
+                            float fTypeDataVal;
                             uint strArrayTypeDataVal;
                             string strArrayTypeDictKey;
                             List<string> strArrayTypeDictList;
@@ -121,15 +120,15 @@ namespace WDBJsonTool.Extraction
                                         }
                                         break;
 
-                                    // float (dump as binary) 
+                                    // float 
                                     case "f":
                                         if (fieldNum == 0)
                                         {
-                                            fTypeBinary = binaryData.Substring(binaryDataIndex - 32, 32);
+                                            fTypeDataVal = BitOperationHelpers.BinaryToFloat(binaryData, binaryDataIndex - 32, 32);
                                             fieldBitsToProcess = 0;
 
-                                            Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeBinary}");
-                                            jsonWriter.WriteString(wdbVars.Fields[f], fTypeBinary);
+                                            Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeDataVal}");
+                                            jsonWriter.WriteNumber(wdbVars.Fields[f], fTypeDataVal);
 
                                             break;
                                         }
@@ -143,11 +142,11 @@ namespace WDBJsonTool.Extraction
                                         {
                                             binaryDataIndex -= fieldNum;
 
-                                            fTypeBinary = binaryData.Substring(binaryDataIndex, fieldNum);
+                                            fTypeDataVal = BitOperationHelpers.BinaryToFloat(binaryData, binaryDataIndex, fieldNum);
                                             fieldBitsToProcess -= fieldNum;
 
-                                            Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeBinary}");
-                                            jsonWriter.WriteString(wdbVars.Fields[f], fTypeBinary);
+                                            Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeDataVal}");
+                                            jsonWriter.WriteNumber(wdbVars.Fields[f], fTypeDataVal);
 
                                             if (fieldBitsToProcess != 0)
                                             {
@@ -155,41 +154,6 @@ namespace WDBJsonTool.Extraction
                                             }
                                         }
                                         break;
-
-                                    //// float 
-                                    //case "f":
-                                    //    if (fieldNum == 0)
-                                    //    {
-                                    //        fTypeDataVal = BitOperationHelpers.BinaryToFloat(binaryData, binaryDataIndex - 32, 32);
-                                    //        fieldBitsToProcess = 0;
-
-                                    //        Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeDataVal}");
-                                    //        jsonWriter.WriteNumber(wdbVars.Fields[f], fTypeDataVal);
-
-                                    //        break;
-                                    //    }
-                                    //    if (fieldNum > fieldBitsToProcess)
-                                    //    {
-                                    //        f--;
-                                    //        fieldBitsToProcess = 0;
-                                    //        continue;
-                                    //    }
-                                    //    else
-                                    //    {
-                                    //        binaryDataIndex -= fieldNum;
-
-                                    //        fTypeDataVal = BitOperationHelpers.BinaryToFloat(binaryData, binaryDataIndex, fieldNum);
-                                    //        fieldBitsToProcess -= fieldNum;
-
-                                    //        Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeDataVal}");
-                                    //        jsonWriter.WriteNumber(wdbVars.Fields[f], fTypeDataVal);
-
-                                    //        if (fieldBitsToProcess != 0)
-                                    //        {
-                                    //            f++;
-                                    //        }
-                                    //    }
-                                    //    break;
 
                                     // (s#) strArray item index
                                     case "s":
