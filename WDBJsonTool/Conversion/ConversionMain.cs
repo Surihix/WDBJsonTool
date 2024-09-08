@@ -19,18 +19,14 @@ namespace WDBJsonTool.Conversion
             Console.WriteLine("");
             Thread.Sleep(1000);
 
-            RecordsConversion.ConvertRecords(wdbVars);
-
-            Console.WriteLine("");
-            Console.WriteLine("");
-            Console.WriteLine("Building wdb file....");
-
             if (wdbVars.HasStrArraySection)
             {
+                RecordsConversion.ConvertRecordsStrArray(wdbVars);
                 WDBbuilder.BuildWDBStrArray(wdbVars);
             }
             else
             {
+                RecordsConversion.ConvertRecords(wdbVars);
                 WDBbuilder.BuildWDB(wdbVars);
             }
 

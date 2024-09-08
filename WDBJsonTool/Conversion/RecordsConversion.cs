@@ -5,213 +5,219 @@ namespace WDBJsonTool.Conversion
 {
     internal class RecordsConversion
     {
+        public static void ConvertRecordsStrArray(WDBVariables wdbVars)
+        {
+
+        }
+
         public static void ConvertRecords(WDBVariables wdbVars)
         {
             uint stringPos = 1;
             wdbVars.ProcessedStringsDict.Add("", 0);
 
             var outPerRecordSize = wdbVars.StrtypelistValues.Count * 4;
-
-            if (wdbVars.HasStrArraySection)
+            foreach (var recordData in wdbVars.RecordsDataDict)
             {
+                var currentOutData = new byte[outPerRecordSize];
 
-            }
-            else
-            {
-                foreach (var recordData in wdbVars.RecordsDataDict)
+                Console.WriteLine($"Record: {recordData.Key}");
+
+                var dataIndex = 0;
+                var strtypelistIndex = 0;
+
+                for (int f = 0; f < wdbVars.FieldCount; f++)
                 {
-                    var currentOutData = new byte[outPerRecordSize];
-                    var collectedBinaryList = new List<char>();
+                    var fieldBitsToProcess = 32;
+                    var collectedBinary = string.Empty;
+                    var addedString = false;
 
-                    Console.WriteLine($"Record: {recordData.Key}");
-
-                    var dataIndex = 0;
-                    var strtypelistIndex = 0;
-
-                    for (int f = 0; f < wdbVars.FieldCount; f++)
+                    switch (wdbVars.StrtypelistValues[strtypelistIndex])
                     {
-                        var fieldBitsToProcess = 32;
-                        bool addedString = false;
+                        case 0:
+                            int iTypeDataVal;
+                            uint uTypeDataVal;
+                            float fTypeDataVal;
 
-                        switch (wdbVars.StrtypelistValues[strtypelistIndex])
-                        {
-                            case 0:
-                                int iTypeDataVal;
-                                uint uTypeDataVal;
+                            while (fieldBitsToProcess != 0 && f < wdbVars.FieldCount)
+                            {
+                                var fieldType = wdbVars.Fields[f].Substring(0, 1);
+                                var fieldNum = SharedMethods.DeriveFieldNumber(wdbVars.Fields[f]);
 
-                                while (fieldBitsToProcess != 0 && f < wdbVars.FieldCount)
+                                switch (fieldType)
                                 {
-                                    var fieldType = wdbVars.Fields[f].Substring(0, 1);
-                                    var fieldNum = SharedMethods.DeriveFieldNumber(wdbVars.Fields[f]);
+                                    // sint
+                                    case "i":
+                                        iTypeDataVal = Convert.ToInt32(recordData.Value[f]);
 
-                                    switch (fieldType)
-                                    {
-                                        // sint
-                                        case "i":
-                                            iTypeDataVal = Convert.ToInt32(recordData.Value[f]);
+                                        if (fieldNum != 0)
+                                        {
                                             ValidateInt(fieldNum, ref iTypeDataVal);
+                                        }
 
-                                            Console.WriteLine($"{wdbVars.Fields[f]}: {iTypeDataVal}");
+                                        Console.WriteLine($"{wdbVars.Fields[f]}: {iTypeDataVal}");
 
-                                            if (fieldNum == 0)
+                                        if (fieldNum == 0)
+                                        {
+                                            fieldNum = 32;
+                                        }
+
+                                        if (fieldNum > fieldBitsToProcess)
+                                        {
+                                            f--;
+                                            fieldBitsToProcess = 0;
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            var iTypedataValBinary = iTypeDataVal.IntToBinaryFixed(fieldNum);
+
+                                            if (iTypedataValBinary.Length > fieldNum)
                                             {
-                                                fieldNum = 32;
+                                                iTypedataValBinary = iTypedataValBinary.Substring(iTypedataValBinary.Length - fieldNum, fieldNum);
                                             }
 
-                                            if (fieldNum > fieldBitsToProcess)
+                                            iTypedataValBinary = iTypedataValBinary.ReverseBinary();
+                                            collectedBinary += iTypedataValBinary;
+
+                                            fieldBitsToProcess -= fieldNum;
+
+                                            if (fieldBitsToProcess != 0)
                                             {
-                                                f--;
-                                                fieldBitsToProcess = 0;
-                                                continue;
+                                                f++;
                                             }
-                                            else
-                                            {
-                                                var iTypedataValBinary = iTypeDataVal.IntToBinaryFixed(fieldNum);
+                                        }
+                                        break;
 
-                                                if (iTypedataValBinary.Length > fieldNum)
-                                                {
-                                                    iTypedataValBinary = iTypedataValBinary.Substring(iTypedataValBinary.Length - fieldNum, fieldNum);
-                                                }
+                                    // uint 
+                                    case "u":
+                                        uTypeDataVal = Convert.ToUInt32(recordData.Value[f]);
 
-                                                var fixedValBinary = iTypedataValBinary.Reverse();
-
-                                                collectedBinaryList.AddRange(fixedValBinary);
-
-                                                fieldBitsToProcess -= fieldNum;
-
-                                                if (fieldBitsToProcess != 0)
-                                                {
-                                                    f++;
-                                                }
-                                            }
-                                            break;
-
-                                        // uint 
-                                        case "u":
-                                            uTypeDataVal = Convert.ToUInt32(recordData.Value[f]);
+                                        if (fieldNum != 0)
+                                        {
                                             ValidateUInt(fieldNum, ref uTypeDataVal);
+                                        }
 
-                                            Console.WriteLine($"{wdbVars.Fields[f]}: {uTypeDataVal}");
+                                        Console.WriteLine($"{wdbVars.Fields[f]}: {uTypeDataVal}");
 
-                                            if (fieldNum == 0)
+                                        if (fieldNum == 0)
+                                        {
+                                            fieldNum = 32;
+                                        }
+
+                                        if (fieldNum > fieldBitsToProcess)
+                                        {
+                                            f--;
+                                            fieldBitsToProcess = 0;
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            var uTypedataValBinary = uTypeDataVal.UIntToBinaryFixed(fieldNum).ReverseBinary();
+                                            collectedBinary += uTypedataValBinary;
+
+                                            fieldBitsToProcess -= fieldNum;
+
+                                            if (fieldBitsToProcess != 0)
                                             {
-                                                fieldNum = 32;
+                                                f++;
                                             }
+                                        }
+                                        break;
 
-                                            if (fieldNum > fieldBitsToProcess)
-                                            {
-                                                f--;
-                                                fieldBitsToProcess = 0;
-                                                continue;
-                                            }
-                                            else
-                                            {
-                                                var uTypedataValBinary = uTypeDataVal.UIntToBinaryFixed(fieldNum).Reverse();
-                                                collectedBinaryList.AddRange(uTypedataValBinary);
-
-                                                fieldBitsToProcess -= fieldNum;
-
-                                                if (fieldBitsToProcess != 0)
-                                                {
-                                                    f++;
-                                                }
-                                            }
-                                            break;
-                                    }
+                                    // float 
+                                    case "f":
+                                        fTypeDataVal = 0;
+                                        break;
                                 }
+                            }
 
-                                collectedBinaryList.Reverse();
+                            collectedBinary = collectedBinary.ReverseBinary();
+                            var collectiveBinaryBytes = BitConverter.GetBytes(Convert.ToUInt32(collectedBinary, 2));
 
-                                var collectiveBinary = string.Concat(collectedBinaryList);
-                                var collectiveBinaryBytes = BitConverter.GetBytes(Convert.ToUInt32(collectiveBinary, 2));
+                            currentOutData[dataIndex] = collectiveBinaryBytes[3];
+                            currentOutData[dataIndex + 1] = collectiveBinaryBytes[2];
+                            currentOutData[dataIndex + 2] = collectiveBinaryBytes[1];
+                            currentOutData[dataIndex + 3] = collectiveBinaryBytes[0];
 
-                                currentOutData[dataIndex] = collectiveBinaryBytes[3];
-                                currentOutData[dataIndex + 1] = collectiveBinaryBytes[2];
-                                currentOutData[dataIndex + 2] = collectiveBinaryBytes[1];
-                                currentOutData[dataIndex + 3] = collectiveBinaryBytes[0];
-                                collectedBinaryList.Clear();
-
-                                strtypelistIndex++;
-                                dataIndex += 4;
-                                break;
+                            strtypelistIndex++;
+                            dataIndex += 4;
+                            break;
 
 
-                            // float value
-                            case 1:
-                                var floatVal = Convert.ToSingle(recordData.Value[f]);
-                                Console.WriteLine($"{wdbVars.Fields[f]}: {floatVal}");
+                        // float value
+                        case 1:
+                            var floatVal = Convert.ToSingle(recordData.Value[f]);
+                            Console.WriteLine($"{wdbVars.Fields[f]}: {floatVal}");
 
-                                var floatValBytes = BitConverter.GetBytes(floatVal);
+                            var floatValBytes = BitConverter.GetBytes(floatVal);
 
-                                currentOutData[dataIndex] = floatValBytes[3];
-                                currentOutData[dataIndex + 1] = floatValBytes[2];
-                                currentOutData[dataIndex + 2] = floatValBytes[1];
-                                currentOutData[dataIndex + 3] = floatValBytes[0];
+                            currentOutData[dataIndex] = floatValBytes[3];
+                            currentOutData[dataIndex + 1] = floatValBytes[2];
+                            currentOutData[dataIndex + 2] = floatValBytes[1];
+                            currentOutData[dataIndex + 3] = floatValBytes[0];
 
-                                strtypelistIndex++;
-                                dataIndex += 4;
-                                break;
+                            strtypelistIndex++;
+                            dataIndex += 4;
+                            break;
 
 
-                            // string section offset
-                            case 2:
-                                var stringVal = recordData.Value[f].ToString();
-                                Console.WriteLine($"{wdbVars.Fields[f]}: {stringVal}");
+                        // string section offset
+                        case 2:
+                            var stringVal = recordData.Value[f].ToString();
+                            Console.WriteLine($"{wdbVars.Fields[f]}: {stringVal}");
 
-                                if (stringVal != "")
+                            if (stringVal != "")
+                            {
+                                if (!wdbVars.ProcessedStringsDict.ContainsKey(stringVal))
                                 {
-                                    if (!wdbVars.ProcessedStringsDict.ContainsKey(stringVal))
-                                    {
-                                        wdbVars.ProcessedStringsDict.Add(stringVal, stringPos);
-                                        addedString = true;
-                                    }
-
-                                    var stringPosBytes = BitConverter.GetBytes(wdbVars.ProcessedStringsDict[stringVal]);
-
-                                    currentOutData[dataIndex] = stringPosBytes[3];
-                                    currentOutData[dataIndex + 1] = stringPosBytes[2];
-                                    currentOutData[dataIndex + 2] = stringPosBytes[1];
-                                    currentOutData[dataIndex + 3] = stringPosBytes[0];
-
-                                    if (addedString)
-                                    {
-                                        stringPos += (uint)Encoding.UTF8.GetByteCount(stringVal + "\0");
-                                        addedString = false;
-                                    }
+                                    wdbVars.ProcessedStringsDict.Add(stringVal, stringPos);
+                                    addedString = true;
                                 }
 
-                                fieldBitsToProcess = 0;
+                                var stringPosBytes = BitConverter.GetBytes(wdbVars.ProcessedStringsDict[stringVal]);
 
-                                strtypelistIndex++;
-                                dataIndex += 4;
-                                break;
+                                currentOutData[dataIndex] = stringPosBytes[3];
+                                currentOutData[dataIndex + 1] = stringPosBytes[2];
+                                currentOutData[dataIndex + 2] = stringPosBytes[1];
+                                currentOutData[dataIndex + 3] = stringPosBytes[0];
+
+                                if (addedString)
+                                {
+                                    stringPos += (uint)Encoding.UTF8.GetByteCount(stringVal + "\0");
+                                    addedString = false;
+                                }
+                            }
+
+                            fieldBitsToProcess = 0;
+
+                            strtypelistIndex++;
+                            dataIndex += 4;
+                            break;
 
 
-                            // uint
-                            case 3:
-                                var uintVal = Convert.ToUInt32(recordData.Value[f]);
-                                Console.WriteLine($"{wdbVars.Fields[f]}: {uintVal}");
+                        // uint
+                        case 3:
+                            var uintVal = Convert.ToUInt32(recordData.Value[f]);
+                            Console.WriteLine($"{wdbVars.Fields[f]}: {uintVal}");
 
-                                var uintValBytes = BitConverter.GetBytes(uintVal);
+                            var uintValBytes = BitConverter.GetBytes(uintVal);
 
-                                currentOutData[dataIndex] = uintValBytes[3];
-                                currentOutData[dataIndex + 1] = uintValBytes[2];
-                                currentOutData[dataIndex + 2] = uintValBytes[1];
-                                currentOutData[dataIndex + 3] = uintValBytes[0];
+                            currentOutData[dataIndex] = uintValBytes[3];
+                            currentOutData[dataIndex + 1] = uintValBytes[2];
+                            currentOutData[dataIndex + 2] = uintValBytes[1];
+                            currentOutData[dataIndex + 3] = uintValBytes[0];
 
-                                strtypelistIndex++;
-                                dataIndex += 4;
-                                break;
-                        }
+                            strtypelistIndex++;
+                            dataIndex += 4;
+                            break;
                     }
-
-                    Console.WriteLine("");
-
-                    wdbVars.OutPerRecordData.Add(recordData.Key, currentOutData);
                 }
+
+                Console.WriteLine("");
+
+                wdbVars.OutPerRecordData.Add(recordData.Key, currentOutData);
             }
         }
-
 
 
         private static void ValidateUInt(int fieldNum, ref uint value)

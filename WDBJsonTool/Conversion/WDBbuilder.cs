@@ -8,7 +8,7 @@ namespace WDBJsonTool.Conversion
         public static void BuildWDB(WDBVariables wdbVars)
         {
             // Build base wdb file
-            BuildBase(wdbVars);
+            CreateBase(wdbVars);
  
             // Start writing the data and update offsets
             using (var outWDBdataWriter = new BinaryWriter(File.Open(wdbVars.WDBName, FileMode.Open, FileAccess.Write)))
@@ -141,13 +141,17 @@ namespace WDBJsonTool.Conversion
         public static void BuildWDBStrArray(WDBVariables wdbVars)
         {
             // Build base wdb file
-            BuildBase(wdbVars);
+            CreateBase(wdbVars);
 
         }
 
 
-        private static void BuildBase(WDBVariables wdbVars)
+        private static void CreateBase(WDBVariables wdbVars)
         {
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Building wdb file....");
+
             if (File.Exists(wdbVars.WDBName))
             {
                 File.Delete(wdbVars.WDBName);
