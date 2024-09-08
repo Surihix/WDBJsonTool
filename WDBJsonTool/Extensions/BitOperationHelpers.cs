@@ -129,4 +129,18 @@
 
         return (float)finalizedValue;
     }
+
+
+    public static bool IsFloatNegative(this float val)
+    {
+        var checkVal = BitConverter.ToUInt32(BitConverter.GetBytes(val), 0);
+        var isNegative = false;
+
+        if (Convert.ToString(checkVal, 2).PadLeft(32, '0')[0] == '1')
+        {
+            isNegative = true;
+        }
+
+        return isNegative;
+    }
 }
