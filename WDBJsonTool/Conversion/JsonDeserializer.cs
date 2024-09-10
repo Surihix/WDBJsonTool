@@ -317,6 +317,17 @@ namespace WDBJsonTool.Conversion
 
                         currentDataList.Add(jsonReader.GetString());
                     }
+                    else if (fieldName.StartsWith("f") && SharedMethods.DeriveFieldNumber(fieldName) != 0)
+                    {
+                        _ = jsonReader.Read();
+
+                        if (jsonReader.TokenType != JsonTokenType.String)
+                        {
+                            SharedMethods.ErrorExit($"{fieldName} property's value was invalid. occured when parsing {recordName} data.");
+                        }
+
+                        currentDataList.Add(jsonReader.GetString());
+                    }
                     else
                     {
                         _ = jsonReader.Read();

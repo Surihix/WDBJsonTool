@@ -39,7 +39,7 @@ namespace WDBJsonTool.Extraction
                             int iTypedataVal;
                             uint uTypeDataVal;
                             string fTypeBinary;
-                            float fTypeDataVal;
+                            //float fTypeDataVal;
                             uint strArrayTypeDataVal;
                             string strArrayTypeDictKey;
                             List<string> strArrayTypeDictList;

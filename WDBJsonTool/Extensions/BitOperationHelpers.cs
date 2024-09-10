@@ -82,66 +82,7 @@
 
     public static float BinaryToFloat(this string binaryVal, int startPosition, int count)
     {
-        binaryVal = binaryVal.Substring(startPosition, count);
-
-        var check = Convert.ToUInt32(binaryVal, 2);
-
-        if (check == 0)
-        {
-            return 0;
-        }
-
-        var isNegative = binaryVal[0] == '1';
-
-        int exponent = 0;
-        string mantissa = string.Empty;
-
-        // mini-float
-        if (count <= 8)
-        {
-
-        }
-
-        // half-float
-        if (count > 8 && count <= 16)
-        {
-            exponent = Convert.ToInt32(binaryVal.Substring(1, 5), 2);
-            exponent -= 15;
-            mantissa = binaryVal.Substring(6);
-        }
-
-        // 24 bit float
-        if (count > 16 && count <= 24)
-        {
-
-        }
-
-        // single-precison float
-        if (count > 24 && count <= 32)
-        {
-            exponent = Convert.ToInt32(binaryVal.Substring(1, 8), 2);
-            exponent -= 127;
-            mantissa = binaryVal.Substring(9);
-        }
-
-        decimal mantissaDecimal = 0;
-        int powerValue = -1;
-
-        for (int m = 0; m < mantissa.Length; m++)
-        {
-            var currentBit = int.Parse(mantissa[m].ToString());
-            mantissaDecimal += currentBit * (decimal)Math.Pow(2, powerValue);
-            powerValue--;
-        }
-
-        var finalizedValue = (1 + mantissaDecimal) * (decimal)Math.Pow(2, exponent);
-
-        if (isNegative)
-        {
-            finalizedValue = -finalizedValue;
-        }
-
-        return (float)finalizedValue;
+        return 0;
     }
 
 

@@ -36,7 +36,8 @@ namespace WDBJsonTool.Conversion
                         case 0:
                             int iTypeDataVal;
                             uint uTypeDataVal;
-                            float fTypeDataVal;
+                            string fTypeBinary;
+                            //float fTypeDataVal;
 
                             while (fieldBitsToProcess != 0 && f < wdbVars.FieldCount)
                             {
@@ -124,9 +125,35 @@ namespace WDBJsonTool.Conversion
                                         }
                                         break;
 
-                                    // float 
+                                    // float (dump as binary) 
                                     case "f":
-                                        fTypeDataVal = 0;
+                                        fTypeBinary = (string)recordData.Value[f];
+
+                                        if (fieldNum != 0)
+                                        {
+                                            ValidateFloatBinary(fieldNum, ref fTypeBinary);
+                                        }
+
+                                        Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeBinary}");
+
+                                        if (fieldNum > fieldBitsToProcess)
+                                        {
+                                            f--;
+                                            fieldBitsToProcess = 0;
+                                            continue;
+                                        }
+                                        else
+                                        {
+                                            fTypeBinary = fTypeBinary.ReverseBinary();
+                                            collectedBinary += fTypeBinary;
+
+                                            fieldBitsToProcess -= fieldNum;
+
+                                            if (fieldBitsToProcess != 0)
+                                            {
+                                                f++;
+                                            }
+                                        }
                                         break;
                                 }
                             }
@@ -253,6 +280,15 @@ namespace WDBJsonTool.Conversion
                 {
                     value = 0;
                 }
+            }
+        }
+
+
+        private static void ValidateFloatBinary(int fieldNum, ref string value)
+        {
+            if (value.Length > fieldNum)
+            {
+                value = new string('1', fieldNum);
             }
         }
     }
