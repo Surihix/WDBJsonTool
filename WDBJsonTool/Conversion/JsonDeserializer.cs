@@ -9,7 +9,6 @@ namespace WDBJsonTool.Conversion
         public static void DeserializeData(string inJsonFile, WDBVariables wdbVars)
         {
             var jsonData = File.ReadAllBytes(inJsonFile);
-            wdbVars.WDBFilePath = Path.Combine(Path.GetDirectoryName(inJsonFile), Path.GetFileNameWithoutExtension(inJsonFile) + ".wdb");
 
             var options = new JsonReaderOptions
             {

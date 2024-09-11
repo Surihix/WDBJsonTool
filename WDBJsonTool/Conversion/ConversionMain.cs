@@ -19,6 +19,8 @@ namespace WDBJsonTool.Conversion
             Console.WriteLine("");
             Thread.Sleep(1000);
 
+            wdbVars.WDBFilePath = Path.Combine(Path.GetDirectoryName(inJsonFile), Path.GetFileNameWithoutExtension(inJsonFile) + ".wdb");
+
             if (wdbVars.HasStrArraySection)
             {
                 RecordsConversion.ConvertRecordsStrArray(wdbVars);
