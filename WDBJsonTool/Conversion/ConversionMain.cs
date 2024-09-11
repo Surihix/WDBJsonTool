@@ -12,7 +12,7 @@ namespace WDBJsonTool.Conversion
 
             Console.WriteLine("");
             Console.WriteLine($"{wdbVars.SheetNameSectionName}: {wdbVars.SheetName}");
-            Console.WriteLine($"Total records: {wdbVars.TotalRecordCount}");
+            Console.WriteLine($"Total records (with sections): {wdbVars.RecordCountWithSections}");
             Console.WriteLine("");
 
             Console.WriteLine("Building records....");

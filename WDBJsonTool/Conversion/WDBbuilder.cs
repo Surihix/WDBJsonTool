@@ -160,7 +160,7 @@ namespace WDBJsonTool.Conversion
             using (var outWDBwriter = new BinaryWriter(File.Open(wdbVars.WDBFilePath, FileMode.Append, FileAccess.Write)))
             {
                 outWDBwriter.Write(Encoding.UTF8.GetBytes("WPD\0"));
-                outWDBwriter.WriteBytesUInt32(wdbVars.TotalRecordCount, true);
+                outWDBwriter.WriteBytesUInt32(wdbVars.RecordCountWithSections, true);
                 outWDBwriter.BaseStream.PadNull(8);
 
                 // sheetname

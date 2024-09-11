@@ -49,7 +49,7 @@ namespace WDBJsonTool.Conversion
 
             if (wdbVars.SheetName != "Not Specified")
             {
-                wdbVars.TotalRecordCount++;
+                wdbVars.RecordCountWithSections++;
 
                 wdbVars.SheetName += "\0";
                 wdbVars.SheetNameData = Encoding.UTF8.GetBytes(wdbVars.SheetName);
@@ -66,7 +66,7 @@ namespace WDBJsonTool.Conversion
 
             if (wdbVars.HasStrArraySection)
             {
-                wdbVars.TotalRecordCount += 3;
+                wdbVars.RecordCountWithSections += 3;
 
                 // Get bitsPerOffset value
                 JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "bitsPerOffset");
@@ -100,7 +100,7 @@ namespace WDBJsonTool.Conversion
             JsonMethods.CheckTokenType("PropertyName", ref jsonReader, strtypelistSecNameProcess);
             JsonMethods.CheckPropertyName(ref jsonReader, strtypelistSecNameProcess);
 
-            wdbVars.TotalRecordCount++;
+            wdbVars.RecordCountWithSections++;
 
 
             // Get strtypelist values
@@ -129,7 +129,7 @@ namespace WDBJsonTool.Conversion
 
             if (wdbVars.HasTypelistSection)
             {
-                wdbVars.TotalRecordCount++;
+                wdbVars.RecordCountWithSections++;
 
                 // Get typelist values
                 JsonMethods.CheckTokenType("PropertyName", ref jsonReader, wdbVars.TypelistSectionName);
@@ -149,7 +149,7 @@ namespace WDBJsonTool.Conversion
             wdbVars.VersionData = BitConverter.GetBytes(jsonReader.GetUInt32());
             Array.Reverse(wdbVars.VersionData);
 
-            wdbVars.TotalRecordCount++;
+            wdbVars.RecordCountWithSections++;
 
 
             // Get structitem values
@@ -157,7 +157,7 @@ namespace WDBJsonTool.Conversion
             JsonMethods.CheckPropertyName(ref jsonReader, wdbVars.StructItemSectionName);
 
             JsonMethods.CheckTokenType("Array", ref jsonReader, wdbVars.StructItemSectionName);
-            wdbVars.TotalRecordCount += 2;
+            wdbVars.RecordCountWithSections += 2;
 
             wdbVars.Fields = JsonMethods.GetStringsFromArrayProperty(ref jsonReader, wdbVars.StructItemSectionName).ToArray();
             wdbVars.FieldCount = (uint)wdbVars.Fields.Length;
@@ -172,7 +172,7 @@ namespace WDBJsonTool.Conversion
             wdbVars.StructItemNumData = BitConverter.GetBytes(wdbVars.FieldCount);
             Array.Reverse(wdbVars.StructItemNumData);
 
-            wdbVars.TotalRecordCount += wdbVars.RecordCount;
+            wdbVars.RecordCountWithSections += wdbVars.RecordCount;
 
 
             // Determine whether there is
@@ -182,12 +182,12 @@ namespace WDBJsonTool.Conversion
                 if (wdbVars.StrtypelistValues.Contains(2))
                 {
                     wdbVars.HasStringSection = true;
-                    wdbVars.TotalRecordCount++;
+                    wdbVars.RecordCountWithSections++;
                 }
                 else if (wdbVars.HasStrArraySection)
                 {
                     wdbVars.HasStringSection = true;
-                    wdbVars.TotalRecordCount++;
+                    wdbVars.RecordCountWithSections++;
                 }
             }
         }

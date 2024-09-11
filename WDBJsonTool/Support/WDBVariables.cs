@@ -16,7 +16,7 @@
         public List<string> ProcessStringsList = new();
         public Dictionary<string, List<string>> StrArrayDict = new();
         public List<int> StrtypelistValues = new();
-        public uint TotalRecordCount;
+        public uint RecordCountWithSections;
         public Dictionary<string, List<object>> RecordsDataDict = new();
         public Dictionary<string, uint> ProcessedStringsDict = new();
         public Dictionary<string, byte[]> OutPerRecordData = new();
