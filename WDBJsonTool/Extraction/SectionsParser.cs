@@ -116,7 +116,7 @@ namespace WDBJsonTool.Extraction
 
             if (wdbVars.SheetName == "" || wdbVars.SheetName == null)
             {
-                wdbVars.SheetName = wdbVars.SheetNameSectionName;
+                wdbVars.SheetName = "Not Specified";
             }
 
             Console.WriteLine("");

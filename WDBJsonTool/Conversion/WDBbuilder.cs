@@ -11,7 +11,7 @@ namespace WDBJsonTool.Conversion
             CreateBase(wdbVars);
  
             // Start writing the data and update offsets
-            using (var outWDBdataWriter = new BinaryWriter(File.Open(wdbVars.WDBName, FileMode.Open, FileAccess.Write)))
+            using (var outWDBdataWriter = new BinaryWriter(File.Open(wdbVars.WDBFilePath, FileMode.Open, FileAccess.Write)))
             {
                 uint secPos = 0;
                 long offsetUpdatePos = 32;
@@ -152,12 +152,12 @@ namespace WDBJsonTool.Conversion
             Console.WriteLine("");
             Console.WriteLine("Building wdb file....");
 
-            if (File.Exists(wdbVars.WDBName))
+            if (File.Exists(wdbVars.WDBFilePath))
             {
-                File.Delete(wdbVars.WDBName);
+                File.Delete(wdbVars.WDBFilePath);
             }
 
-            using (var outWDBwriter = new BinaryWriter(File.Open(wdbVars.WDBName, FileMode.Append, FileAccess.Write)))
+            using (var outWDBwriter = new BinaryWriter(File.Open(wdbVars.WDBFilePath, FileMode.Append, FileAccess.Write)))
             {
                 outWDBwriter.Write(Encoding.UTF8.GetBytes("WPD\0"));
                 outWDBwriter.WriteBytesUInt32(wdbVars.TotalRecordCount, true);

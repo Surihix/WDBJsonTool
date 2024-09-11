@@ -9,7 +9,7 @@ namespace WDBJsonTool.Conversion
         public static void DeserializeData(string inJsonFile, WDBVariables wdbVars)
         {
             var jsonData = File.ReadAllBytes(inJsonFile);
-            wdbVars.WDBName = Path.Combine(Path.GetDirectoryName(inJsonFile), Path.GetFileNameWithoutExtension(inJsonFile) + ".wdb");
+            wdbVars.WDBFilePath = Path.Combine(Path.GetDirectoryName(inJsonFile), Path.GetFileNameWithoutExtension(inJsonFile) + ".wdb");
 
             var options = new JsonReaderOptions
             {
@@ -33,38 +33,24 @@ namespace WDBJsonTool.Conversion
         private static void DeserializeMainSections(ref Utf8JsonReader jsonReader, WDBVariables wdbVars)
         {
             // Get recordCount
-            JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "recordCount");
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "recordCount");
+            JsonMethods.CheckPropertyName(ref jsonReader, "recordCount");
 
-            if (jsonReader.GetString() != "recordCount")
-            {
-                SharedMethods.ErrorExit("Missing recordCount property at expected position");
-            }
-
-            JsonMethods.CheckJsonTokenType("Number", ref jsonReader, "recordCount");
-
+            JsonMethods.CheckTokenType("Number", ref jsonReader, "recordCount");
             wdbVars.RecordCount = jsonReader.GetUInt32();
 
 
             // Get sheetName
-            JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, wdbVars.SheetNameSectionName);
-            wdbVars.TotalRecordCount++;
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, wdbVars.SheetNameSectionName);
+            JsonMethods.CheckPropertyName(ref jsonReader, wdbVars.SheetNameSectionName);
 
-            if (jsonReader.GetString() != wdbVars.SheetNameSectionName)
-            {
-                SharedMethods.ErrorExit($"Missing {wdbVars.SheetNameSectionName} property at expected position");
-            }
-
-            JsonMethods.CheckJsonTokenType("String", ref jsonReader, wdbVars.SheetNameSectionName);
-
+            JsonMethods.CheckTokenType("String", ref jsonReader, wdbVars.SheetNameSectionName);
             wdbVars.SheetName = jsonReader.GetString();
 
-            if (wdbVars.SheetName == wdbVars.SheetNameSectionName)
+            if (wdbVars.SheetName != "Not Specified")
             {
-                wdbVars.TotalRecordCount--;
-                wdbVars.SheetName = "Not Specified";
-            }
-            else
-            {
+                wdbVars.TotalRecordCount++;
+
                 wdbVars.SheetName += "\0";
                 wdbVars.SheetNameData = Encoding.UTF8.GetBytes(wdbVars.SheetName);
             }
@@ -72,15 +58,10 @@ namespace WDBJsonTool.Conversion
 
             // Check if strArray is
             // present
-            JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "hasStrArray");
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "hasStrArray");
+            JsonMethods.CheckPropertyName(ref jsonReader, "hasStrArray");
 
-            if (jsonReader.GetString() != "hasStrArray")
-            {
-                SharedMethods.ErrorExit("Missing hasStrArray property at expected position");
-            }
-
-            JsonMethods.CheckJsonTokenType("Bool", ref jsonReader, "hasStrArray");
-
+            JsonMethods.CheckTokenType("Bool", ref jsonReader, "hasStrArray");
             wdbVars.HasStrArraySection = jsonReader.GetBoolean();
 
             if (wdbVars.HasStrArraySection)
@@ -88,25 +69,17 @@ namespace WDBJsonTool.Conversion
                 wdbVars.TotalRecordCount += 3;
 
                 // Get bitsPerOffset value
-                JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "bitsPerOffset");
+                JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "bitsPerOffset");
+                JsonMethods.CheckPropertyName(ref jsonReader, "bitsPerOffset");
 
-                if (jsonReader.GetString() != "bitsPerOffset")
-                {
-                    SharedMethods.ErrorExit("Missing bitsPerOffset property at expected position");
-                }
-
-                JsonMethods.CheckJsonTokenType("Number", ref jsonReader, "bitsPerOffset");
+                JsonMethods.CheckTokenType("Number", ref jsonReader, "bitsPerOffset");
                 wdbVars.BitsPerOffset = jsonReader.GetByte();
 
                 // Get offsetsPerValue value
-                JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "offsetsPerValue");
+                JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "offsetsPerValue");
+                JsonMethods.CheckPropertyName(ref jsonReader, "offsetsPerValue");
 
-                if (jsonReader.GetString() != "offsetsPerValue")
-                {
-                    SharedMethods.ErrorExit("Missing offsetsPerValue property at expected position");
-                }
-
-                JsonMethods.CheckJsonTokenType("Number", ref jsonReader, "offsetsPerValue");
+                JsonMethods.CheckTokenType("Number", ref jsonReader, "offsetsPerValue");
                 wdbVars.OffsetsPerValue = jsonReader.GetByte();
 
                 wdbVars.StrArrayInfoData = new byte[4];
@@ -117,30 +90,21 @@ namespace WDBJsonTool.Conversion
 
             // Check and determine how to parse
             // strtypelist
-            JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "isStrTypelistV1");
-            wdbVars.TotalRecordCount++;
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "isStrTypelistV1");
+            JsonMethods.CheckPropertyName(ref jsonReader, "isStrTypelistV1");
 
-            if (jsonReader.GetString() != "isStrTypelistV1")
-            {
-                SharedMethods.ErrorExit("Missing isStrTypelistV1 property at expected position");
-            }
-
-            JsonMethods.CheckJsonTokenType("Bool", ref jsonReader, "isStrTypelistV1");
-
+            JsonMethods.CheckTokenType("Bool", ref jsonReader, "isStrTypelistV1");
             wdbVars.ParseStrtypelistAsV1 = jsonReader.GetBoolean();
 
             var strtypelistSecNameProcess = wdbVars.ParseStrtypelistAsV1 ? wdbVars.StrtypelistSectionName : wdbVars.StrtypelistbSectionName;
-            JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, strtypelistSecNameProcess);
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, strtypelistSecNameProcess);
+            JsonMethods.CheckPropertyName(ref jsonReader, strtypelistSecNameProcess);
 
-            if (jsonReader.GetString() != strtypelistSecNameProcess)
-            {
-                SharedMethods.ErrorExit($"Missing {strtypelistSecNameProcess} property at expected position");
-            }
+            wdbVars.TotalRecordCount++;
 
 
             // Get strtypelist values
-            JsonMethods.CheckJsonTokenType("Array", ref jsonReader, strtypelistSecNameProcess);
-
+            JsonMethods.CheckTokenType("Array", ref jsonReader, strtypelistSecNameProcess);
             wdbVars.StrtypelistValues = JsonMethods.GetNumbersFromArrayProperty(ref jsonReader, strtypelistSecNameProcess);
 
             if (wdbVars.ParseStrtypelistAsV1)
@@ -157,15 +121,10 @@ namespace WDBJsonTool.Conversion
 
             // Check if typelist is
             // present 
-            JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "hasTypelist");
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "hasTypelist");
+            JsonMethods.CheckPropertyName(ref jsonReader, "hasTypelist");
 
-            if (jsonReader.GetString() != "hasTypelist")
-            {
-                SharedMethods.ErrorExit("Missing hasTypelist property at expected position");
-            }
-
-            JsonMethods.CheckJsonTokenType("Bool", ref jsonReader, "hasTypelist");
-
+            JsonMethods.CheckTokenType("Bool", ref jsonReader, "hasTypelist");
             wdbVars.HasTypelistSection = jsonReader.GetBoolean();
 
             if (wdbVars.HasTypelistSection)
@@ -173,9 +132,8 @@ namespace WDBJsonTool.Conversion
                 wdbVars.TotalRecordCount++;
 
                 // Get typelist values
-                JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, wdbVars.TypelistSectionName);
-                JsonMethods.CheckJsonTokenType("Array", ref jsonReader, wdbVars.TypelistSectionName);
-
+                JsonMethods.CheckTokenType("PropertyName", ref jsonReader, wdbVars.TypelistSectionName);
+                JsonMethods.CheckTokenType("Array", ref jsonReader, wdbVars.TypelistSectionName);
                 var typelistValues = JsonMethods.GetNumbersFromArrayProperty(ref jsonReader, wdbVars.TypelistSectionName);
 
                 wdbVars.TypelistData = new byte[typelistValues.Count * 4];
@@ -184,23 +142,21 @@ namespace WDBJsonTool.Conversion
 
 
             // Get version
-            JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, wdbVars.VersionSectionName);
-            wdbVars.TotalRecordCount++;
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, wdbVars.VersionSectionName);
+            JsonMethods.CheckPropertyName(ref jsonReader, wdbVars.VersionSectionName);
 
-            if (jsonReader.GetString() != wdbVars.VersionSectionName)
-            {
-                SharedMethods.ErrorExit($"Missing {wdbVars.VersionSectionName} property at expected position");
-            }
-
-            JsonMethods.CheckJsonTokenType("Number", ref jsonReader, wdbVars.VersionSectionName);
-
+            JsonMethods.CheckTokenType("Number", ref jsonReader, wdbVars.VersionSectionName);
             wdbVars.VersionData = BitConverter.GetBytes(jsonReader.GetUInt32());
             Array.Reverse(wdbVars.VersionData);
 
+            wdbVars.TotalRecordCount++;
+
 
             // Get structitem values
-            JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, wdbVars.StructItemSectionName);
-            JsonMethods.CheckJsonTokenType("Array", ref jsonReader, wdbVars.StructItemSectionName);
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, wdbVars.StructItemSectionName);
+            JsonMethods.CheckPropertyName(ref jsonReader, wdbVars.StructItemSectionName);
+
+            JsonMethods.CheckTokenType("Array", ref jsonReader, wdbVars.StructItemSectionName);
             wdbVars.TotalRecordCount += 2;
 
             wdbVars.Fields = JsonMethods.GetStringsFromArrayProperty(ref jsonReader, wdbVars.StructItemSectionName).ToArray();
@@ -223,27 +179,15 @@ namespace WDBJsonTool.Conversion
             // a string section
             if (!wdbVars.HasStringSection)
             {
-                if (wdbVars.HasStrArraySection)
+                if (wdbVars.StrtypelistValues.Contains(2))
                 {
                     wdbVars.HasStringSection = true;
                     wdbVars.TotalRecordCount++;
                 }
-                else if (wdbVars.StrtypelistValues.Contains(2))
+                else if (wdbVars.HasStrArraySection)
                 {
                     wdbVars.HasStringSection = true;
                     wdbVars.TotalRecordCount++;
-                }
-                else
-                {
-                    for (int f = 0; f < wdbVars.FieldCount; f++)
-                    {
-                        if (wdbVars.Fields[f].StartsWith("s"))
-                        {
-                            wdbVars.HasStringSection = true;
-                            wdbVars.TotalRecordCount++;
-                            break;
-                        }
-                    }
                 }
             }
         }
@@ -252,8 +196,10 @@ namespace WDBJsonTool.Conversion
         private static void DeserializeRecords(ref Utf8JsonReader jsonReader, WDBVariables wdbVars)
         {
             // Get record values
-            JsonMethods.CheckJsonTokenType("PropertyName", ref jsonReader, "records");
-            JsonMethods.CheckJsonTokenType("Array", ref jsonReader, "records");
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "records");
+            JsonMethods.CheckPropertyName(ref jsonReader, "records");
+
+            JsonMethods.CheckTokenType("Array", ref jsonReader, "records");
 
             var recordName = string.Empty;
             string fieldName;

@@ -33,6 +33,7 @@ namespace WDBJsonTool.Conversion
 
                     switch (wdbVars.StrtypelistValues[strtypelistIndex])
                     {
+                        // bitpacked
                         case 0:
                             int iTypeDataVal;
                             uint uTypeDataVal;
@@ -170,7 +171,6 @@ namespace WDBJsonTool.Conversion
                             dataIndex += 4;
                             break;
 
-
                         // float value
                         case 1:
                             var floatVal = Convert.ToSingle(recordData.Value[f]);
@@ -186,7 +186,6 @@ namespace WDBJsonTool.Conversion
                             strtypelistIndex++;
                             dataIndex += 4;
                             break;
-
 
                         // string section offset
                         case 2:
@@ -215,14 +214,11 @@ namespace WDBJsonTool.Conversion
                                 }
                             }
 
-                            fieldBitsToProcess = 0;
-
                             strtypelistIndex++;
                             dataIndex += 4;
                             break;
 
-
-                        // uint
+                        // uint value
                         case 3:
                             var uintVal = Convert.ToUInt32(recordData.Value[f]);
                             Console.WriteLine($"{wdbVars.Fields[f]}: {uintVal}");

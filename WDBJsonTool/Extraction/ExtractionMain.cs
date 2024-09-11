@@ -11,8 +11,7 @@ namespace WDBJsonTool.Extraction
 
             using (var wdbReader = new BinaryReader(File.Open(inWDBfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {
-                wdbVars.WDBName = Path.GetFileNameWithoutExtension(inWDBfile);
-                wdbVars.JsonName = Path.Combine(Path.GetDirectoryName(inWDBfile), wdbVars.WDBName + ".json");
+                wdbVars.JsonFilePath = Path.Combine(Path.GetDirectoryName(inWDBfile), Path.GetFileNameWithoutExtension(inWDBfile) + ".json");
 
                 _ = wdbReader.BaseStream.Position = 0;
                 if (wdbReader.ReadBytesString(3, false) != "WPD")
@@ -60,13 +59,13 @@ namespace WDBJsonTool.Extraction
                     Console.WriteLine("");
                     Console.WriteLine("Writing wdb data to json file....");
 
-                    if (File.Exists(wdbVars.JsonName))
+                    if (File.Exists(wdbVars.JsonFilePath))
                     {
-                        File.Delete(wdbVars.JsonName);
+                        File.Delete(wdbVars.JsonFilePath);
                     }
 
                     jsonStream.Seek(0, SeekOrigin.Begin);
-                    File.WriteAllBytes(wdbVars.JsonName, jsonStream.ToArray());
+                    File.WriteAllBytes(wdbVars.JsonFilePath, jsonStream.ToArray());
                 }
             }
 

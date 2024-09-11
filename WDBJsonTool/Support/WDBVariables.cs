@@ -3,8 +3,8 @@
     internal class WDBVariables
     {
         // Important variables
-        public string? WDBName;
-        public string? JsonName;
+        public string? WDBFilePath;
+        public string? JsonFilePath;
         public uint RecordCount;
         public bool HasStrArraySection;
         public bool HasStringSection;
@@ -22,17 +22,17 @@
         public Dictionary<string, byte[]> OutPerRecordData = new();
 
         // Section names
-        public string SheetNameSectionName = "!!sheetname";
-        public string StrArraySectionName = "!!strArray";
-        public string StrArrayInfoSectionName = "!!strArrayInfo";
-        public string StrArrayListSectionName = "!!strArrayList";
-        public string StringSectionName = "!!string";
-        public string StrtypelistSectionName = "!!strtypelist";
-        public string StrtypelistbSectionName = "!!strtypelistb";
-        public string TypelistSectionName = "!!typelist";
-        public string VersionSectionName = "!!version";
-        public string StructItemSectionName = "!structitem";
-        public string StructItemNumSectionName = "!structitemnum";
+        public readonly string SheetNameSectionName = "!!sheetname";
+        public readonly string StrArraySectionName = "!!strArray";
+        public readonly string StrArrayInfoSectionName = "!!strArrayInfo";
+        public readonly string StrArrayListSectionName = "!!strArrayList";
+        public readonly string StringSectionName = "!!string";
+        public readonly string StrtypelistSectionName = "!!strtypelist";
+        public readonly string StrtypelistbSectionName = "!!strtypelistb";
+        public readonly string TypelistSectionName = "!!typelist";
+        public readonly string VersionSectionName = "!!version";
+        public readonly string StructItemSectionName = "!structitem";
+        public readonly string StructItemNumSectionName = "!structitemnum";
 
         // Section data
         public string? SheetName;

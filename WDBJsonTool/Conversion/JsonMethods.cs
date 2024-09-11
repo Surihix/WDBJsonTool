@@ -5,7 +5,7 @@ namespace WDBJsonTool.Conversion
 {
     internal class JsonMethods
     {
-        public static void CheckJsonTokenType(string tokenType, ref Utf8JsonReader jsonReader, string property)
+        public static void CheckTokenType(string tokenType, ref Utf8JsonReader jsonReader, string property)
         {
             _ = jsonReader.Read();
 
@@ -48,6 +48,15 @@ namespace WDBJsonTool.Conversion
                         SharedMethods.ErrorExit($"Specified {property} property's value is not a string");
                     }
                     break;
+            }
+        }
+
+
+        public static void CheckPropertyName(ref Utf8JsonReader jsonReader, string propertyName)
+        {
+            if (jsonReader.GetString() != propertyName)
+            {
+                SharedMethods.ErrorExit($"Missing {propertyName} property at expected position");
             }
         }
 

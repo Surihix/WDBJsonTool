@@ -8,6 +8,8 @@ namespace WDBJsonTool
     {
         static void Main(string[] args)
         {
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
             Console.WriteLine("");
 
             if (args.Length == 0)

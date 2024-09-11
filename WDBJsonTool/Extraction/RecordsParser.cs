@@ -31,6 +31,7 @@ namespace WDBJsonTool.Extraction
                 {
                     switch (wdbVars.StrtypelistValues[strtypelistIndex])
                     {
+                        // bitpacked
                         case 0:
                             var binaryData = BitOperationHelpers.UIntToBinary(SharedMethods.DeriveUIntFromSectionData(currentRecordData, currentRecordDataIndex, true));
                             var binaryDataIndex = binaryData.Length;
@@ -248,7 +249,7 @@ namespace WDBJsonTool.Extraction
                             currentRecordDataIndex += 4;
                             break;
 
-                        // uint
+                        // uint value
                         case 3:
                             var uintDataVal = SharedMethods.DeriveUIntFromSectionData(currentRecordData, currentRecordDataIndex, true);
 
