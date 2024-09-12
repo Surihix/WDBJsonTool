@@ -166,80 +166,42 @@ namespace WDBJsonTool.Conversion
                 // sheetname
                 if (wdbVars.SheetName != "Not Specified")
                 {
-                    var sheetNameSectionNameBytes = Encoding.UTF8.GetBytes(wdbVars.SheetNameSectionName);
-                    outWDBwriter.Write(sheetNameSectionNameBytes);
-
-                    outWDBwriter.BaseStream.PadNull(16 - sheetNameSectionNameBytes.Length);
-                    outWDBwriter.BaseStream.PadNull(16);
+                    WriteSectionName(outWDBwriter, wdbVars.SheetNameSectionName, wdbVars.SheetNameSectionNameLength);
                 }
 
                 // strarray
                 if (wdbVars.HasStrArraySection)
                 {
-                    var strArraySectionNameBytes = Encoding.UTF8.GetBytes(wdbVars.StrArraySectionName);
-                    outWDBwriter.Write(strArraySectionNameBytes);
-                    outWDBwriter.BaseStream.PadNull(16 - strArraySectionNameBytes.Length);
-                    outWDBwriter.BaseStream.PadNull(16);
-
-                    var strArrayInfoSectionNameBytes = Encoding.UTF8.GetBytes(wdbVars.StrArrayInfoSectionName);
-                    outWDBwriter.Write(strArrayInfoSectionNameBytes);
-                    outWDBwriter.BaseStream.PadNull(16 - strArrayInfoSectionNameBytes.Length);
-                    outWDBwriter.BaseStream.PadNull(16);
-
-                    var strArrayListSectionNameBytes = Encoding.UTF8.GetBytes(wdbVars.StrArrayListSectionName);
-                    outWDBwriter.Write(strArrayListSectionNameBytes);
-                    outWDBwriter.BaseStream.PadNull(16 - strArrayListSectionNameBytes.Length);
-                    outWDBwriter.BaseStream.PadNull(16);
+                    WriteSectionName(outWDBwriter, wdbVars.StrArraySectionName, wdbVars.StrArraySectionNameLength);
+                    WriteSectionName(outWDBwriter, wdbVars.StrArrayInfoSectionName, wdbVars.StrArrayInfoSectionNameLength);
+                    WriteSectionName(outWDBwriter, wdbVars.StrArrayListSectionName, wdbVars.StrArrayListSectionNameLength);
                 }
 
                 // string
                 if (wdbVars.HasStringSection)
                 {
-                    var stringSectionNameBytes = Encoding.UTF8.GetBytes(wdbVars.StringSectionName);
-                    outWDBwriter.Write(stringSectionNameBytes);
-
-                    outWDBwriter.BaseStream.PadNull(16 - stringSectionNameBytes.Length);
-                    outWDBwriter.BaseStream.PadNull(16);
+                    WriteSectionName(outWDBwriter, wdbVars.StringSectionName, wdbVars.StringSectionNameLength);
                 }
 
                 // strtypelist
                 var strtypelistSectionName = wdbVars.ParseStrtypelistAsV1 ? wdbVars.StrtypelistSectionName : wdbVars.StrtypelistbSectionName;
-                var strtypelistSectionNameBytes = Encoding.UTF8.GetBytes(strtypelistSectionName);
-                outWDBwriter.Write(strtypelistSectionNameBytes);
-
-                outWDBwriter.BaseStream.PadNull(16 - strtypelistSectionNameBytes.Length);
-                outWDBwriter.BaseStream.PadNull(16);
+                var strtypelistSectionNameLength = wdbVars.ParseStrtypelistAsV1 ? wdbVars.StrtypelistSectionNameLength : wdbVars.StrtypelistbSectionNameLength;
+                WriteSectionName(outWDBwriter, strtypelistSectionName, strtypelistSectionNameLength);
 
                 // typelist
                 if (wdbVars.HasTypelistSection)
                 {
-                    var typelistSectionNameBytes = Encoding.UTF8.GetBytes(wdbVars.TypelistSectionName);
-                    outWDBwriter.Write(typelistSectionNameBytes);
-
-                    outWDBwriter.BaseStream.PadNull(16 - typelistSectionNameBytes.Length);
-                    outWDBwriter.BaseStream.PadNull(16);
+                    WriteSectionName(outWDBwriter, wdbVars.TypelistSectionName, wdbVars.TypelistSectionNameLength);
                 }
 
                 // version
-                var versionSectionNameBytes = Encoding.UTF8.GetBytes(wdbVars.VersionSectionName);
-                outWDBwriter.Write(versionSectionNameBytes);
-
-                outWDBwriter.BaseStream.PadNull(16 - versionSectionNameBytes.Length);
-                outWDBwriter.BaseStream.PadNull(16);
+                WriteSectionName(outWDBwriter, wdbVars.VersionSectionName, wdbVars.VersionSectionNameLength);
 
                 // structitem
-                var structItemSectionNameBytes = Encoding.UTF8.GetBytes(wdbVars.StructItemSectionName);
-                outWDBwriter.Write(structItemSectionNameBytes);
-
-                outWDBwriter.BaseStream.PadNull(16 - structItemSectionNameBytes.Length);
-                outWDBwriter.BaseStream.PadNull(16);
+                WriteSectionName(outWDBwriter, wdbVars.StructItemSectionName, wdbVars.StructItemSectionNameLength);
 
                 // structitemnum
-                var structItemSectionNumNameBytes = Encoding.UTF8.GetBytes(wdbVars.StructItemNumSectionName);
-                outWDBwriter.Write(structItemSectionNumNameBytes);
-
-                outWDBwriter.BaseStream.PadNull(16 - structItemSectionNumNameBytes.Length);
-                outWDBwriter.BaseStream.PadNull(16);
+                WriteSectionName(outWDBwriter, wdbVars.StructItemNumSectionName, wdbVars.StructItemNumSectionNameLength);
 
                 // record names
                 foreach (var recordName in wdbVars.RecordsDataDict.Keys)
@@ -251,6 +213,14 @@ namespace WDBJsonTool.Conversion
                     outWDBwriter.BaseStream.PadNull(16);
                 }
             }
+        }
+
+
+        private static void WriteSectionName(BinaryWriter outWDBwriter, string nameString, int nameLength)
+        {
+            outWDBwriter.Write(Encoding.UTF8.GetBytes(nameString));
+            outWDBwriter.BaseStream.PadNull(16 - nameLength);
+            outWDBwriter.BaseStream.PadNull(16);
         }
 
 

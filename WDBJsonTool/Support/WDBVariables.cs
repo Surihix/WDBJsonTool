@@ -34,6 +34,19 @@
         public readonly string StructItemSectionName = "!structitem";
         public readonly string StructItemNumSectionName = "!structitemnum";
 
+        // Section names string length
+        public readonly int SheetNameSectionNameLength = 11;
+        public readonly int StrArraySectionNameLength = 10;
+        public readonly int StrArrayInfoSectionNameLength = 14;
+        public readonly int StrArrayListSectionNameLength = 14;
+        public readonly int StringSectionNameLength = 8;
+        public readonly int StrtypelistSectionNameLength = 13;
+        public readonly int StrtypelistbSectionNameLength = 14;
+        public readonly int TypelistSectionNameLength = 10;
+        public readonly int VersionSectionNameLength = 9;
+        public readonly int StructItemSectionNameLength = 11;
+        public readonly int StructItemNumSectionNameLength = 14;
+
         // Section data
         public string? SheetName;
         public byte[]? SheetNameData;
