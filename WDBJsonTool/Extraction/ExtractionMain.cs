@@ -42,7 +42,8 @@ namespace WDBJsonTool.Extraction
                 {
                     var options = new JsonWriterOptions
                     {
-                        Indented = true
+                        Indented = true,
+                        Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                     };
 
                     using (var jsonWriter = new Utf8JsonWriter(jsonStream, options))
@@ -54,7 +55,7 @@ namespace WDBJsonTool.Extraction
 
                         jsonWriter.WriteEndObject();
                     }
-                  
+
                     Console.WriteLine("");
                     Console.WriteLine("");
                     Console.WriteLine("Writing wdb data to json file....");
