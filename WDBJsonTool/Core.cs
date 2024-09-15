@@ -1,6 +1,4 @@
-﻿using WDBJsonTool.Conversion;
-using WDBJsonTool.Extraction;
-using WDBJsonTool.Support;
+﻿using WDBJsonTool.Support;
 
 namespace WDBJsonTool
 {
@@ -9,7 +7,6 @@ namespace WDBJsonTool
         static void Main(string[] args)
         {
             Console.OutputEncoding = System.Text.Encoding.UTF8;
-
             Console.WriteLine("");
 
             if (args.Length == 0)
@@ -19,42 +16,101 @@ namespace WDBJsonTool
 
             if (args[0] == "-?")
             {
-                Console.WriteLine("Tool actions:");
-                Console.WriteLine("WDBJsonTool -? = Display this help page");
-                Console.WriteLine("WDBJsonTool \"auto_clip.wdb\" = Extracts the wdb data into a new json file.");
-                Console.WriteLine("WDBJsonTool \"auto_clip.json\" = Converts the wdb data in the json file, to a new wdb file.");
-                Console.WriteLine("");
-                Console.WriteLine("Examples:");
-                Console.WriteLine("WDBJsonTool.exe -?");
-                Console.WriteLine("WDBJsonTool.exe \"auto_clip.wdb\"");
-                Console.WriteLine("WDBJsonTool.exe \"auto_clip.json\"");
+                Console.WriteLine("Game Codes:");
+                Console.WriteLine("-ff131 = Sets conversion compatibility to FFXIII");
+                Console.WriteLine("-ff132 = Sets conversion compatibility to FFXIII-2 and LR");
 
+                Console.WriteLine("");
+                Console.WriteLine("Tool actions:");
+                Console.WriteLine("-? = Display this help page");
+                Console.WriteLine("-x = Converts the wdb data into a new json file");
+                Console.WriteLine("-xi = Converts the wdb data into a new json file without the fieldnames (only when gamecode is -ff131)");
+                Console.WriteLine("-c = Converts the wdb data in the json file, to a new wdb file");
+
+                Console.WriteLine("");
+                Console.WriteLine("Examples (with -ff131 game code):");
+                Console.WriteLine("WDBJsonTool.exe -?");
+                Console.WriteLine("WDBJsonTool.exe -ff131 -x \"auto_clip.wdb\"");
+                Console.WriteLine("WDBJsonTool.exe -ff131 -xi \"auto_clip.wdb\"");
+                Console.WriteLine("WDBJsonTool.exe -ff131 -c \"auto_clip.json\"");
+
+                Console.ReadLine();
                 Environment.Exit(0);
             }
 
-            var inFile = args[0];
+            if (args.Length < 3)
+            {
+                SharedMethods.ErrorExit("Enough arguments not specified for this process");
+            }
+
+            // Assign the gameCode
+            if (Enum.TryParse(args[0].Replace("-", ""), false, out GameCodes gameCode) == false)
+            {
+                SharedMethods.ErrorExit("Specified game code was invalid");
+            }
+
+            // Assign the tool action
+            if (Enum.TryParse(args[1].Replace("-", ""), false, out ToolActions toolAction) == false)
+            {
+                SharedMethods.ErrorExit("Specified tool action was invalid");
+            }
+
+            var inFile = args[2];
 
             if (!File.Exists(inFile))
             {
                 SharedMethods.ErrorExit("Specified WDB or json file is missing");
             }
 
-            switch (Path.GetExtension(inFile))
+
+            switch (toolAction)
             {
-                case ".wdb":
-                    ExtractionMain.StartExtraction(inFile);
+                case ToolActions.x:
+                case ToolActions.xi:
+                    if (gameCode == GameCodes.ff131)
+                    {
+                        XIII.Extraction.ExtractionMain.StartExtraction(inFile, toolAction == ToolActions.xi);
+                    }
+                    else
+                    {
+                        XIII2LR.Extraction.ExtractionMain.StartExtraction(inFile);
+                    }
                     break;
 
-                case ".json":
-                    ConversionMain.StartConversion(inFile);
+
+                case ToolActions.c:
+                    if (gameCode == GameCodes.ff131)
+                    {
+                        XIII.Conversion.ConversionMain.StartConversion(inFile);
+                    }
+                    else
+                    {
+                        XIII2LR.Conversion.ConversionMain.StartConversion(inFile);
+                    }
                     break;
+
 
                 default:
-                    SharedMethods.ErrorExit("Specified file type is not supported");
+                    SharedMethods.ErrorExit("Specified tool action is invalid");
                     break;
             }
 
             Environment.Exit(0);
+        }
+
+
+        enum GameCodes
+        {
+            ff131,
+            ff132
+        }
+
+
+        enum ToolActions
+        {
+            x,
+            xi,
+            c
         }
     }
 }

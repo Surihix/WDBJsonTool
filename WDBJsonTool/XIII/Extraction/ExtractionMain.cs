@@ -1,17 +1,21 @@
 ﻿using System.Text.Json;
 using WDBJsonTool.Support;
 
-namespace WDBJsonTool.Extraction
+namespace WDBJsonTool.XIII.Extraction
 {
     internal class ExtractionMain
     {
-        public static void StartExtraction(string inWDBfile)
+        public static void StartExtraction(string inWDBfile, bool shouldIgnoreKnown)
         {
-            var wdbVars = new WDBVariables();
-
-            using (var wdbReader = new BinaryReader(File.Open(inWDBfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
+            var wdbVars = new WDBVariables
             {
-                wdbVars.JsonFilePath = Path.Combine(Path.GetDirectoryName(inWDBfile), Path.GetFileNameWithoutExtension(inWDBfile) + ".json");
+                IgnoreKnown = shouldIgnoreKnown
+            };
+
+            using (var wdbReader = new BinaryReader(File.Open(inWDBfile, FileMode.Open, FileAccess.Read)))
+            {
+                wdbVars.WDBName = Path.GetFileNameWithoutExtension(inWDBfile);
+                wdbVars.JsonFilePath = Path.Combine(Path.GetDirectoryName(inWDBfile), wdbVars.WDBName + ".json");
 
                 _ = wdbReader.BaseStream.Position = 0;
                 if (wdbReader.ReadBytesString(3, false) != "WPD")
@@ -33,10 +37,6 @@ namespace WDBJsonTool.Extraction
                 Console.WriteLine($"Total records: {wdbVars.RecordCount}");
                 Console.WriteLine("");
 
-                Console.WriteLine("Parsing records....");
-                Console.WriteLine("");
-                Thread.Sleep(1000);
-
 
                 using (var jsonStream = new MemoryStream())
                 {
@@ -51,7 +51,19 @@ namespace WDBJsonTool.Extraction
                         jsonWriter.WriteStartObject();
 
                         SectionsParser.MainSectionsToJson(wdbVars, jsonWriter);
-                        RecordsParser.ProcessRecords(wdbReader, wdbVars, jsonWriter);
+
+                        Console.WriteLine("Parsing records....");
+                        Console.WriteLine("");
+                        Thread.Sleep(1000);
+
+                        if (wdbVars.IsKnown)
+                        {
+                            RecordsParser.ParseRecordsWithFields(wdbReader, wdbVars, jsonWriter);
+                        }
+                        else
+                        {
+                            RecordsParser.ParseRecordsWithoutFields(wdbReader, wdbVars, jsonWriter);
+                        }
 
                         jsonWriter.WriteEndObject();
                     }

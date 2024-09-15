@@ -2,7 +2,7 @@
 using System.Text.Json;
 using WDBJsonTool.Support;
 
-namespace WDBJsonTool.Conversion
+namespace WDBJsonTool.XIII2LR.Conversion
 {
     internal class JsonDeserializer
     {
@@ -104,7 +104,7 @@ namespace WDBJsonTool.Conversion
 
             // Get strtypelist values
             JsonMethods.CheckTokenType("Array", ref jsonReader, strtypelistSecNameProcess);
-            wdbVars.StrtypelistValues = JsonMethods.GetNumbersFromArrayProperty(ref jsonReader, strtypelistSecNameProcess);
+            wdbVars.StrtypelistValues = JsonMethods.GetNumbersFromArrayPropertyInt(ref jsonReader, strtypelistSecNameProcess);
 
             if (wdbVars.ParseStrtypelistAsV1)
             {
@@ -133,7 +133,7 @@ namespace WDBJsonTool.Conversion
                 // Get typelist values
                 JsonMethods.CheckTokenType("PropertyName", ref jsonReader, wdbVars.TypelistSectionName);
                 JsonMethods.CheckTokenType("Array", ref jsonReader, wdbVars.TypelistSectionName);
-                var typelistValues = JsonMethods.GetNumbersFromArrayProperty(ref jsonReader, wdbVars.TypelistSectionName);
+                var typelistValues = JsonMethods.GetNumbersFromArrayPropertyInt(ref jsonReader, wdbVars.TypelistSectionName);
 
                 wdbVars.TypelistData = new byte[typelistValues.Count * 4];
                 wdbVars.TypelistData = SharedMethods.CreateArrayFromIntList(typelistValues, 4);

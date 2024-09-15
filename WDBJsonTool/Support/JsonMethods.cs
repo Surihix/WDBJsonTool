@@ -1,7 +1,6 @@
 ﻿using System.Text.Json;
-using WDBJsonTool.Support;
 
-namespace WDBJsonTool.Conversion
+namespace WDBJsonTool.Support
 {
     internal class JsonMethods
     {
@@ -61,7 +60,7 @@ namespace WDBJsonTool.Conversion
         }
 
 
-        public static List<int> GetNumbersFromArrayProperty(ref Utf8JsonReader jsonReader, string arrayProperty)
+        public static List<int> GetNumbersFromArrayPropertyInt(ref Utf8JsonReader jsonReader, string arrayProperty)
         {
             var numbersList = new List<int>();
 
@@ -80,6 +79,31 @@ namespace WDBJsonTool.Conversion
                 }
 
                 numbersList.Add(jsonReader.GetInt32());
+            }
+
+            return numbersList;
+        }
+
+
+        public static List<uint> GetNumbersFromArrayPropertyUInt(ref Utf8JsonReader jsonReader, string arrayProperty)
+        {
+            var numbersList = new List<uint>();
+
+            while (true)
+            {
+                _ = jsonReader.Read();
+
+                if (jsonReader.TokenType == JsonTokenType.EndArray)
+                {
+                    break;
+                }
+
+                if (jsonReader.TokenType != JsonTokenType.Number)
+                {
+                    SharedMethods.ErrorExit($"Detected a value that is not a number in {arrayProperty} property");
+                }
+
+                numbersList.Add(jsonReader.GetUInt32());
             }
 
             return numbersList;

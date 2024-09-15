@@ -1,6 +1,6 @@
 ﻿using WDBJsonTool.Support;
 
-namespace WDBJsonTool.Extraction
+namespace WDBJsonTool.XIII2LR.Extraction
 {
     internal class StrArrayParser
     {

@@ -1,7 +1,7 @@
 ﻿using System.Text;
 using WDBJsonTool.Support;
 
-namespace WDBJsonTool.Conversion
+namespace WDBJsonTool.XIII2LR.Conversion
 {
     internal class RecordsConversion
     {
@@ -53,7 +53,7 @@ namespace WDBJsonTool.Conversion
 
                                         if (fieldNum != 0)
                                         {
-                                            ValidateInt(fieldNum, ref iTypeDataVal);
+                                            SharedMethods.ValidateInt(fieldNum, ref iTypeDataVal);
                                         }
 
                                         Console.WriteLine($"{wdbVars.Fields[f]}: {iTypeDataVal}");
@@ -96,7 +96,7 @@ namespace WDBJsonTool.Conversion
 
                                         if (fieldNum != 0)
                                         {
-                                            ValidateUInt(fieldNum, ref uTypeDataVal);
+                                            SharedMethods.ValidateUInt(fieldNum, ref uTypeDataVal);
                                         }
 
                                         Console.WriteLine($"{wdbVars.Fields[f]}: {uTypeDataVal}");
@@ -132,7 +132,7 @@ namespace WDBJsonTool.Conversion
 
                                         if (fieldNum != 0)
                                         {
-                                            ValidateFloatBinary(fieldNum, ref fTypeBinary);
+                                            SharedMethods.ValidateFloatBinary(fieldNum, ref fTypeBinary);
                                         }
 
                                         Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeBinary}");
@@ -239,52 +239,6 @@ namespace WDBJsonTool.Conversion
                 Console.WriteLine("");
 
                 wdbVars.OutPerRecordData.Add(recordData.Key, currentOutData);
-            }
-        }
-
-
-        private static void ValidateUInt(int fieldNum, ref uint value)
-        {
-            var maxValue = Convert.ToUInt32(new string('1', fieldNum), 2);
-
-            if (value > maxValue)
-            {
-                value = 0;
-            }
-        }
-
-
-        private static void ValidateInt(int fieldNum, ref int value)
-        {
-            if (value < 0)
-            {
-                var valueBinary = Convert.ToString(value, 2);
-                valueBinary = valueBinary.Substring(valueBinary.Length - fieldNum, fieldNum);
-
-                var newValue = valueBinary.BinaryToInt(0, fieldNum);
-
-                if (newValue != value)
-                {
-                    value = 0;
-                }
-            }
-            else
-            {
-                var maxValue = Convert.ToInt32(new string('1', fieldNum), 2);
-
-                if (value > maxValue)
-                {
-                    value = 0;
-                }
-            }
-        }
-
-
-        private static void ValidateFloatBinary(int fieldNum, ref string value)
-        {
-            if (value.Length > fieldNum)
-            {
-                value = new string('1', fieldNum);
             }
         }
     }

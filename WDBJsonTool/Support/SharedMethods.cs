@@ -40,6 +40,23 @@ namespace WDBJsonTool.Support
         }
 
 
+        public static List<uint> GetSectionDataValues(byte[] dataArray)
+        {
+            var processList = new List<uint>();
+            var dataIndex = 0;
+
+            for (int i = 0; i < dataArray.Length / 4; i++)
+            {
+                var currentValue = DeriveUIntFromSectionData(dataArray, dataIndex, true);
+                processList.Add(currentValue);
+
+                dataIndex += 4;
+            }
+
+            return processList;
+        }
+
+
         public static string DeriveStringFromArray(byte[] dataArray, int stringOffset)
         {
             var length = 0;
@@ -147,6 +164,72 @@ namespace WDBJsonTool.Support
             }
 
             return dataArray;
+        }
+
+
+        public static byte[] CreateArrayFromUIntList(List<uint> uintList)
+        {
+            var count = uintList.Count;
+            var dataArray = new byte[4 * count];
+            var index = 0;
+
+            for (int i = 0; i < count; i++)
+            {
+                var currentVal = BitConverter.GetBytes(uintList[i]);
+                dataArray[index] = currentVal[3];
+                dataArray[index + 1] = currentVal[2];
+                dataArray[index + 2] = currentVal[1];
+                dataArray[index + 3] = currentVal[0];
+                index += 4;
+            }
+
+            return dataArray;
+        }
+
+
+        public static void ValidateUInt(int fieldNum, ref uint value)
+        {
+            var maxValue = Convert.ToUInt32(new string('1', fieldNum), 2);
+
+            if (value > maxValue)
+            {
+                value = 0;
+            }
+        }
+
+
+        public static void ValidateInt(int fieldNum, ref int value)
+        {
+            if (value < 0)
+            {
+                var valueBinary = Convert.ToString(value, 2);
+                valueBinary = valueBinary.Substring(valueBinary.Length - fieldNum, fieldNum);
+
+                var newValue = valueBinary.BinaryToInt(0, fieldNum);
+
+                if (newValue != value)
+                {
+                    value = 0;
+                }
+            }
+            else
+            {
+                var maxValue = Convert.ToInt32(new string('1', fieldNum), 2);
+
+                if (value > maxValue)
+                {
+                    value = 0;
+                }
+            }
+        }
+
+
+        public static void ValidateFloatBinary(int fieldNum, ref string value)
+        {
+            if (value.Length > fieldNum)
+            {
+                value = new string('1', fieldNum);
+            }
         }
     }
 }

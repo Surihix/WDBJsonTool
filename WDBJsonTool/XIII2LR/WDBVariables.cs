@@ -1,4 +1,4 @@
-﻿namespace WDBJsonTool.Support
+﻿namespace WDBJsonTool.XIII2LR
 {
     internal class WDBVariables
     {

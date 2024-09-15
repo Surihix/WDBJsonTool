@@ -1,6 +1,4 @@
-﻿using WDBJsonTool.Support;
-
-namespace WDBJsonTool.Conversion
+﻿namespace WDBJsonTool.XIII2LR.Conversion
 {
     internal class ConversionMain
     {

@@ -1,7 +1,6 @@
 ﻿using System.Text;
-using WDBJsonTool.Support;
 
-namespace WDBJsonTool.Conversion
+namespace WDBJsonTool.XIII2LR.Conversion
 {
     internal class WDBbuilder
     {
@@ -9,7 +8,7 @@ namespace WDBJsonTool.Conversion
         {
             // Build base wdb file
             CreateBase(wdbVars);
- 
+
             // Start writing the data and update offsets
             using (var outWDBdataWriter = new BinaryWriter(File.Open(wdbVars.WDBFilePath, FileMode.Open, FileAccess.Write)))
             {
