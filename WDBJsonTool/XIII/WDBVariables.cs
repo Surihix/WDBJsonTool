@@ -34,10 +34,10 @@
         public readonly int VersionSectionNameLength = 9;
 
         // Section data
-        public byte[] StringsData;
-        public byte[] StrtypelistData;
-        public byte[] TypelistData;
-        public byte[] VersionData;
+        public byte[]? StringsData;
+        public byte[]? StrtypelistData;
+        public byte[]? TypelistData;
+        public byte[]? VersionData;
         public uint FieldCount;
     }
 }

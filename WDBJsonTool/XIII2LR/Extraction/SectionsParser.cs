@@ -161,9 +161,9 @@ namespace WDBJsonTool.XIII2LR.Extraction
 
         public static void MainSectionsToJson(WDBVariables wdbVars, Utf8JsonWriter jsonWriter)
         {
-            jsonWriter.WriteNumber("recordCount", wdbVars.RecordCount);
+            jsonWriter.WriteNumber(JsonVariables.RecordCountToken, wdbVars.RecordCount);
             jsonWriter.WriteString(wdbVars.SheetNameSectionName, wdbVars.SheetName);
-            jsonWriter.WriteBoolean("hasStrArray", wdbVars.HasStrArraySection);
+            jsonWriter.WriteBoolean(JsonVariables.HasStrArrayToken, wdbVars.HasStrArraySection);
 
 
             // Write array info values
@@ -171,13 +171,13 @@ namespace WDBJsonTool.XIII2LR.Extraction
             // present
             if (wdbVars.HasStrArraySection)
             {
-                jsonWriter.WriteNumber("bitsPerOffset", wdbVars.BitsPerOffset);
-                jsonWriter.WriteNumber("offsetsPerValue", wdbVars.OffsetsPerValue);
+                jsonWriter.WriteNumber(JsonVariables.BitsPerOffsetToken, wdbVars.BitsPerOffset);
+                jsonWriter.WriteNumber(JsonVariables.OffsetsPerValueToken, wdbVars.OffsetsPerValue);
             }
 
 
             // Parse and write the strtypelistData
-            jsonWriter.WriteBoolean("isStrTypelistV1", wdbVars.ParseStrtypelistAsV1);
+            jsonWriter.WriteBoolean(JsonVariables.IsStrTypelistV1Token, wdbVars.ParseStrtypelistAsV1);
 
             if (wdbVars.ParseStrtypelistAsV1)
             {
@@ -216,7 +216,7 @@ namespace WDBJsonTool.XIII2LR.Extraction
 
 
             // Write all the typelist data
-            jsonWriter.WriteBoolean("hasTypelist", wdbVars.HasTypelistSection);
+            jsonWriter.WriteBoolean(JsonVariables.HasTypelistToken, wdbVars.HasTypelistSection);
             if (wdbVars.HasTypelistSection)
             {
                 jsonWriter.WriteStartArray(wdbVars.TypelistSectionName);

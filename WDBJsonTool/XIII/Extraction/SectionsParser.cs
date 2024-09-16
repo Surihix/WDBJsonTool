@@ -93,12 +93,12 @@ namespace WDBJsonTool.XIII.Extraction
 
         public static void MainSectionsToJson(WDBVariables wdbVars, Utf8JsonWriter jsonWriter)
         {
-            jsonWriter.WriteNumber("recordCount", wdbVars.RecordCount);
+            jsonWriter.WriteNumber(JsonVariables.RecordCountToken, wdbVars.RecordCount);
 
             if (WDBDicts.RecordIDs.ContainsKey(wdbVars.WDBName) && !wdbVars.IgnoreKnown)
             {
                 wdbVars.IsKnown = true;
-                jsonWriter.WriteBoolean("isKnown", wdbVars.IsKnown);
+                jsonWriter.WriteBoolean(JsonVariables.IsKnownToken, wdbVars.IsKnown);
 
                 wdbVars.SheetName = WDBDicts.RecordIDs[wdbVars.WDBName];
                 jsonWriter.WriteString(wdbVars.SheetNameSectionName, wdbVars.SheetName);
@@ -122,7 +122,7 @@ namespace WDBJsonTool.XIII.Extraction
             }
             else
             {
-                jsonWriter.WriteBoolean("isKnown", wdbVars.IsKnown);
+                jsonWriter.WriteBoolean(JsonVariables.IsKnownToken, wdbVars.IsKnown);
             }
 
 

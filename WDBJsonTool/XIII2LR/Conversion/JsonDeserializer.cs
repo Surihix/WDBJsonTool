@@ -32,17 +32,15 @@ namespace WDBJsonTool.XIII2LR.Conversion
         private static void DeserializeMainSections(ref Utf8JsonReader jsonReader, WDBVariables wdbVars)
         {
             // Get recordCount
-            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "recordCount");
-            JsonMethods.CheckPropertyName(ref jsonReader, "recordCount");
-
-            JsonMethods.CheckTokenType("Number", ref jsonReader, "recordCount");
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, JsonVariables.RecordCountToken);
+            JsonMethods.CheckPropertyName(ref jsonReader, JsonVariables.RecordCountToken);
+            JsonMethods.CheckTokenType("Number", ref jsonReader, JsonVariables.RecordCountToken);
             wdbVars.RecordCount = jsonReader.GetUInt32();
 
 
             // Get sheetName
             JsonMethods.CheckTokenType("PropertyName", ref jsonReader, wdbVars.SheetNameSectionName);
             JsonMethods.CheckPropertyName(ref jsonReader, wdbVars.SheetNameSectionName);
-
             JsonMethods.CheckTokenType("String", ref jsonReader, wdbVars.SheetNameSectionName);
             wdbVars.SheetName = jsonReader.GetString();
 
@@ -57,28 +55,24 @@ namespace WDBJsonTool.XIII2LR.Conversion
 
             // Check if strArray is
             // present
-            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "hasStrArray");
-            JsonMethods.CheckPropertyName(ref jsonReader, "hasStrArray");
-
-            JsonMethods.CheckTokenType("Bool", ref jsonReader, "hasStrArray");
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, JsonVariables.HasStrArrayToken);
+            JsonMethods.CheckPropertyName(ref jsonReader, JsonVariables.HasStrArrayToken);
+            JsonMethods.CheckTokenType("Bool", ref jsonReader, JsonVariables.HasStrArrayToken);
             wdbVars.HasStrArraySection = jsonReader.GetBoolean();
 
             if (wdbVars.HasStrArraySection)
             {
                 wdbVars.RecordCountWithSections += 3;
 
-                // Get bitsPerOffset value
-                JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "bitsPerOffset");
-                JsonMethods.CheckPropertyName(ref jsonReader, "bitsPerOffset");
-
-                JsonMethods.CheckTokenType("Number", ref jsonReader, "bitsPerOffset");
+                // Get strArrayInfo values
+                JsonMethods.CheckTokenType("PropertyName", ref jsonReader, JsonVariables.BitsPerOffsetToken);
+                JsonMethods.CheckPropertyName(ref jsonReader, JsonVariables.BitsPerOffsetToken);
+                JsonMethods.CheckTokenType("Number", ref jsonReader, JsonVariables.BitsPerOffsetToken);
                 wdbVars.BitsPerOffset = jsonReader.GetByte();
 
-                // Get offsetsPerValue value
-                JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "offsetsPerValue");
-                JsonMethods.CheckPropertyName(ref jsonReader, "offsetsPerValue");
-
-                JsonMethods.CheckTokenType("Number", ref jsonReader, "offsetsPerValue");
+                JsonMethods.CheckTokenType("PropertyName", ref jsonReader, JsonVariables.OffsetsPerValueToken);
+                JsonMethods.CheckPropertyName(ref jsonReader, JsonVariables.OffsetsPerValueToken);
+                JsonMethods.CheckTokenType("Number", ref jsonReader, JsonVariables.OffsetsPerValueToken);
                 wdbVars.OffsetsPerValue = jsonReader.GetByte();
 
                 wdbVars.StrArrayInfoData = new byte[4];
@@ -89,10 +83,9 @@ namespace WDBJsonTool.XIII2LR.Conversion
 
             // Check and determine how to parse
             // strtypelist
-            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "isStrTypelistV1");
-            JsonMethods.CheckPropertyName(ref jsonReader, "isStrTypelistV1");
-
-            JsonMethods.CheckTokenType("Bool", ref jsonReader, "isStrTypelistV1");
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, JsonVariables.IsStrTypelistV1Token);
+            JsonMethods.CheckPropertyName(ref jsonReader, JsonVariables.IsStrTypelistV1Token);
+            JsonMethods.CheckTokenType("Bool", ref jsonReader, JsonVariables.IsStrTypelistV1Token);
             wdbVars.ParseStrtypelistAsV1 = jsonReader.GetBoolean();
 
             var strtypelistSecNameProcess = wdbVars.ParseStrtypelistAsV1 ? wdbVars.StrtypelistSectionName : wdbVars.StrtypelistbSectionName;
@@ -120,10 +113,9 @@ namespace WDBJsonTool.XIII2LR.Conversion
 
             // Check if typelist is
             // present 
-            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "hasTypelist");
-            JsonMethods.CheckPropertyName(ref jsonReader, "hasTypelist");
-
-            JsonMethods.CheckTokenType("Bool", ref jsonReader, "hasTypelist");
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, JsonVariables.HasTypelistToken);
+            JsonMethods.CheckPropertyName(ref jsonReader, JsonVariables.HasTypelistToken);
+            JsonMethods.CheckTokenType("Bool", ref jsonReader, JsonVariables.HasTypelistToken);
             wdbVars.HasTypelistSection = jsonReader.GetBoolean();
 
             if (wdbVars.HasTypelistSection)
@@ -143,7 +135,6 @@ namespace WDBJsonTool.XIII2LR.Conversion
             // Get version
             JsonMethods.CheckTokenType("PropertyName", ref jsonReader, wdbVars.VersionSectionName);
             JsonMethods.CheckPropertyName(ref jsonReader, wdbVars.VersionSectionName);
-
             JsonMethods.CheckTokenType("Number", ref jsonReader, wdbVars.VersionSectionName);
             wdbVars.VersionData = BitConverter.GetBytes(jsonReader.GetUInt32());
             Array.Reverse(wdbVars.VersionData);
@@ -154,7 +145,6 @@ namespace WDBJsonTool.XIII2LR.Conversion
             // Get structitem values
             JsonMethods.CheckTokenType("PropertyName", ref jsonReader, wdbVars.StructItemSectionName);
             JsonMethods.CheckPropertyName(ref jsonReader, wdbVars.StructItemSectionName);
-
             JsonMethods.CheckTokenType("Array", ref jsonReader, wdbVars.StructItemSectionName);
             wdbVars.RecordCountWithSections += 2;
 
@@ -195,10 +185,9 @@ namespace WDBJsonTool.XIII2LR.Conversion
         private static void DeserializeRecords(ref Utf8JsonReader jsonReader, WDBVariables wdbVars)
         {
             // Get record values
-            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, "records");
-            JsonMethods.CheckPropertyName(ref jsonReader, "records");
-
-            JsonMethods.CheckTokenType("Array", ref jsonReader, "records");
+            JsonMethods.CheckTokenType("PropertyName", ref jsonReader, JsonVariables.RecordsArrayToken);
+            JsonMethods.CheckPropertyName(ref jsonReader, JsonVariables.RecordsArrayToken);
+            JsonMethods.CheckTokenType("Array", ref jsonReader, JsonVariables.RecordsArrayToken);
 
             var recordName = string.Empty;
             string fieldName;
@@ -252,17 +241,6 @@ namespace WDBJsonTool.XIII2LR.Conversion
                     fieldName = jsonReader.GetString();
 
                     if (fieldName.StartsWith("s"))
-                    {
-                        _ = jsonReader.Read();
-
-                        if (jsonReader.TokenType != JsonTokenType.String)
-                        {
-                            SharedMethods.ErrorExit($"{fieldName} property's value was invalid. occured when parsing {recordName} data.");
-                        }
-
-                        currentDataList.Add(jsonReader.GetString());
-                    }
-                    else if (fieldName.StartsWith("f") && SharedMethods.DeriveFieldNumber(fieldName) != 0)
                     {
                         _ = jsonReader.Read();
 

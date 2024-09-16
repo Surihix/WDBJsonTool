@@ -193,6 +193,7 @@ namespace WDBJsonTool.Support
 
             if (value > maxValue)
             {
+                Console.WriteLine($"Warning: Value {value} will be zeroed due to exceeding bit amount");
                 value = 0;
             }
         }
@@ -209,6 +210,7 @@ namespace WDBJsonTool.Support
 
                 if (newValue != value)
                 {
+                    Console.WriteLine($"Warning: Value {value} will be zeroed due to exceeding bit amount");
                     value = 0;
                 }
             }
@@ -218,6 +220,7 @@ namespace WDBJsonTool.Support
 
                 if (value > maxValue)
                 {
+                    Console.WriteLine($"Warning: Value {value} will be zeroed due to exceeding bit amount");
                     value = 0;
                 }
             }

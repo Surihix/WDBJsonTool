@@ -8,7 +8,7 @@ namespace WDBJsonTool.XIII2LR.Extraction
         public static void ProcessRecords(BinaryReader wdbReader, WDBVariables wdbVars, Utf8JsonWriter jsonWriter)
         {
             // Process each record's data
-            jsonWriter.WriteStartArray("records");
+            jsonWriter.WriteStartArray(JsonVariables.RecordsArrayToken);
 
             var sectionPos = wdbReader.BaseStream.Position;
             string currentRecordName;
@@ -24,7 +24,7 @@ namespace WDBJsonTool.XIII2LR.Extraction
                 currentRecordName = wdbReader.ReadBytesString(16, false);
 
                 Console.WriteLine($"Record: {currentRecordName}");
-                jsonWriter.WriteString("record", currentRecordName);
+                jsonWriter.WriteString(JsonVariables.RecordToken, currentRecordName);
 
                 currentRecordData = SharedMethods.SaveSectionData(wdbReader, false);
                 for (int f = 0; f < wdbVars.FieldCount; f++)
@@ -39,7 +39,6 @@ namespace WDBJsonTool.XIII2LR.Extraction
 
                             int iTypedataVal;
                             uint uTypeDataVal;
-                            //string fTypeBinary;
                             int fTypeDataVal;
                             uint strArrayTypeDataVal;
                             string strArrayTypeDictKey;
@@ -156,41 +155,6 @@ namespace WDBJsonTool.XIII2LR.Extraction
                                             }
                                         }
                                         break;
-
-                                    //// float (dump as binary) 
-                                    //case "f":
-                                    //    if (fieldNum == 0)
-                                    //    {
-                                    //        fTypeBinary = binaryData.Substring(binaryDataIndex - 32, 32);
-                                    //        fieldBitsToProcess = 0;
-
-                                    //        Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeBinary}");
-                                    //        jsonWriter.WriteString(wdbVars.Fields[f], fTypeBinary);
-
-                                    //        break;
-                                    //    }
-                                    //    if (fieldNum > fieldBitsToProcess)
-                                    //    {
-                                    //        f--;
-                                    //        fieldBitsToProcess = 0;
-                                    //        continue;
-                                    //    }
-                                    //    else
-                                    //    {
-                                    //        binaryDataIndex -= fieldNum;
-
-                                    //        fTypeBinary = binaryData.Substring(binaryDataIndex, fieldNum);
-                                    //        fieldBitsToProcess -= fieldNum;
-
-                                    //        Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeBinary}");
-                                    //        jsonWriter.WriteString(wdbVars.Fields[f], fTypeBinary);
-
-                                    //        if (fieldBitsToProcess != 0)
-                                    //        {
-                                    //            f++;
-                                    //        }
-                                    //    }
-                                    //    break;
 
                                     // (s#) strArray item index
                                     case "s":

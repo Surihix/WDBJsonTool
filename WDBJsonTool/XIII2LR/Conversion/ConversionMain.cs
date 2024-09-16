@@ -13,22 +13,23 @@
             Console.WriteLine($"Total records (with sections): {wdbVars.RecordCountWithSections}");
             Console.WriteLine("");
 
-            Console.WriteLine("Building records....");
-            Console.WriteLine("");
-            Thread.Sleep(1000);
-
             wdbVars.WDBFilePath = Path.Combine(Path.GetDirectoryName(inJsonFile), Path.GetFileNameWithoutExtension(inJsonFile) + ".wdb");
 
             if (wdbVars.HasStrArraySection)
             {
                 RecordsConversion.ConvertRecordsStrArray(wdbVars);
-                WDBbuilder.BuildWDBStrArray(wdbVars);
             }
             else
             {
                 RecordsConversion.ConvertRecords(wdbVars);
-                WDBbuilder.BuildWDB(wdbVars);
             }
+
+
+            Console.WriteLine("");
+            Console.WriteLine("");
+            Console.WriteLine("Building wdb file....");
+
+            WDBbuilder.BuildWDB(wdbVars);
 
             Console.WriteLine("");
             Console.WriteLine("");
