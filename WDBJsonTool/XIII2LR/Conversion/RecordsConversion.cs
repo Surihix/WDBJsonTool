@@ -7,8 +7,11 @@ namespace WDBJsonTool.XIII2LR.Conversion
     {
         public static void ConvertRecordsStrArray(WDBVariables wdbVars)
         {
-            // s#Field & strings
-            var processedSFieldStringsDict = new Dictionary<string, List<string>>();
+            // Build strArray string dictionaries
+
+            // Dictionary structure:
+            // s#Field & string items
+            var strArrayDataDict = new Dictionary<string, List<string>>();
 
             foreach (var recordData in wdbVars.RecordsDataDict)
             {
@@ -20,36 +23,84 @@ namespace WDBJsonTool.XIII2LR.Conversion
                     if (fieldType == "s" && fieldNum != 0)
                     {
                         var currentSField = wdbVars.Fields[f];
+                        var currentString = recordData.Value[f].ToString();
 
-                        if (!processedSFieldStringsDict.ContainsKey(currentSField))
+                        if (!strArrayDataDict.ContainsKey(currentSField))
                         {
-                            processedSFieldStringsDict.Add(currentSField, new List<string>());
+                            strArrayDataDict.Add(currentSField, new List<string>());
                         }
 
-                        processedSFieldStringsDict[currentSField].Add(recordData.Value[f].ToString());
+                        if (!strArrayDataDict[currentSField].Contains(currentString))
+                        {
+                            strArrayDataDict[currentSField].Add(currentString);
+                        }
                     }
                 }
             }
-
 
             uint stringPos = 1;
             wdbVars.ProcessedStringsDict.Add("", 0);
 
-            var strArrayDict = new Dictionary<string, List<string>>();
-            var strArrayValDict = new Dictionary<string, uint>();
+            // Dictionary structure:
+            // s#Field & string offset(s)
+            var strArrayValDict = new Dictionary<string, List<uint>>();
 
-            foreach (var sField in processedSFieldStringsDict)
+            foreach (var strArrayData in strArrayDataDict)
             {
-                var offsetValuesCount = wdbVars.OffsetsPerValue;
+                var currentArrayName = strArrayData.Key;
+                var currentArrayList = strArrayData.Value;
+                var lastItemNumber = currentArrayList.Count;
+                var addedString = false;
 
-                for (int s = 0; s < sField.Value.Count; s++)
+                strArrayValDict.Add(currentArrayName, new List<uint>());
+
+                for (int s = 0; s < currentArrayList.Count; s++)
                 {
-                    while (offsetValuesCount != 0 && s < sField.Value.Count)
-                    {
+                    var currentValBinaryList = new List<string>();
 
+                    for (int o = 0; o < wdbVars.OffsetsPerValue; o++)
+                    {
+                        var currentStringItem = currentArrayList[s];
+
+                        if (!wdbVars.ProcessedStringsDict.ContainsKey(currentStringItem))
+                        {
+                            wdbVars.ProcessedStringsDict.Add(currentStringItem, stringPos);
+                            addedString = true;
+                        }
+
+                        var stringItemPos = wdbVars.ProcessedStringsDict[currentStringItem];
+                        var currentOffsetVal = stringItemPos.UIntToBinaryFixed(wdbVars.BitsPerOffset);
+                        currentValBinaryList.Add(currentOffsetVal);
+
+                        if (addedString)
+                        {
+                            stringPos += (uint)Encoding.UTF8.GetByteCount(currentStringItem + "\0");
+                            addedString = false;
+                        }
+
+                        s++;
+
+                        if (s == lastItemNumber)
+                        {
+                            break;
+                        }
                     }
+
+                    s--;
+                    currentValBinaryList.Reverse();
+
+                    var currentValBinary = string.Empty;
+                    foreach (var binary in currentValBinaryList)
+                    {
+                        currentValBinary += binary;
+                    }
+
+                    strArrayValDict[currentArrayName].Add(Convert.ToUInt32(currentValBinary, 2));
                 }
             }
+
+
+
         }
 
         public static void ConvertRecords(WDBVariables wdbVars)
