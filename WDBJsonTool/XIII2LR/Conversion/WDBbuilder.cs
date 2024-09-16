@@ -142,6 +142,160 @@ namespace WDBJsonTool.XIII2LR.Conversion
             // Build base wdb file
             CreateBase(wdbVars);
 
+            // Start writing the data and update offsets
+            using (var outWDBdataWriter = new BinaryWriter(File.Open(wdbVars.WDBFilePath, FileMode.Open, FileAccess.Write)))
+            {
+                uint secPos = 0;
+                long offsetUpdatePos = 32;
+
+                // sheetname
+                if (wdbVars.SheetName != "Not Specified")
+                {
+                    outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                    secPos = (uint)outWDBdataWriter.BaseStream.Position;
+
+                    var sheetNameBytes = Encoding.UTF8.GetBytes(wdbVars.SheetName);
+
+                    outWDBdataWriter.Write(sheetNameBytes);
+                    PadBytesAfterSection(outWDBdataWriter);
+
+                    UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, (uint)sheetNameBytes.Length);
+                    offsetUpdatePos += 32;
+                }
+
+                // strArray
+                outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                secPos = (uint)outWDBdataWriter.BaseStream.Position;
+                outWDBdataWriter.Write(wdbVars.StrArrayData);
+
+                PadBytesAfterSection(outWDBdataWriter);
+
+                UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, (uint)wdbVars.StrArrayData.Length);
+                offsetUpdatePos += 32;
+
+
+                // strArrayInfo
+                outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                secPos = (uint)outWDBdataWriter.BaseStream.Position;
+                outWDBdataWriter.Write(wdbVars.StrArrayInfoData);
+
+                PadBytesAfterSection(outWDBdataWriter);
+
+                UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, (uint)wdbVars.StrArrayInfoData.Length);
+                offsetUpdatePos += 32;
+
+
+                // strArrayList
+                outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                secPos = (uint)outWDBdataWriter.BaseStream.Position;
+                outWDBdataWriter.Write(wdbVars.StrArrayListData);
+
+                PadBytesAfterSection(outWDBdataWriter);
+
+                UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, (uint)wdbVars.StrArrayListData.Length);
+                offsetUpdatePos += 32;
+
+
+                // string
+                outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                secPos = (uint)outWDBdataWriter.BaseStream.Position;
+
+                uint stringSectionSize = 0;
+
+                foreach (var stringKey in wdbVars.ProcessedStringsDict.Keys)
+                {
+                    if (stringKey == "")
+                    {
+                        outWDBdataWriter.Write((byte)0);
+                        stringSectionSize++;
+                    }
+                    else
+                    {
+                        var stringKeyBytes = Encoding.UTF8.GetBytes(stringKey + "\0");
+                        outWDBdataWriter.Write(stringKeyBytes);
+                        stringSectionSize += (uint)stringKeyBytes.Length;
+                    }
+                }
+
+                PadBytesAfterSection(outWDBdataWriter);
+
+                UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, stringSectionSize);
+                offsetUpdatePos += 32;
+
+
+                // strtypelist
+                outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                secPos = (uint)outWDBdataWriter.BaseStream.Position;
+                outWDBdataWriter.Write(wdbVars.StrtypelistData);
+
+                PadBytesAfterSection(outWDBdataWriter);
+
+                UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, (uint)wdbVars.StrtypelistData.Length);
+                offsetUpdatePos += 32;
+
+
+                // typelist
+                if (wdbVars.HasTypelistSection)
+                {
+                    outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                    secPos = (uint)outWDBdataWriter.BaseStream.Position;
+                    outWDBdataWriter.Write(wdbVars.TypelistData);
+
+                    PadBytesAfterSection(outWDBdataWriter);
+
+                    UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, (uint)wdbVars.TypelistData.Length);
+                    offsetUpdatePos += 32;
+                }
+
+
+                // version
+                outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                secPos = (uint)outWDBdataWriter.BaseStream.Position;
+                outWDBdataWriter.Write(wdbVars.VersionData);
+
+                PadBytesAfterSection(outWDBdataWriter);
+
+                UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, (uint)wdbVars.VersionData.Length);
+                offsetUpdatePos += 32;
+
+
+                // structitem
+                outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                secPos = (uint)outWDBdataWriter.BaseStream.Position;
+                outWDBdataWriter.Write(wdbVars.StructItemData);
+
+                PadBytesAfterSection(outWDBdataWriter);
+
+                UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, (uint)wdbVars.StructItemData.Length);
+                offsetUpdatePos += 32;
+
+
+                // structitemnum
+                outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                secPos = (uint)outWDBdataWriter.BaseStream.Position;
+                outWDBdataWriter.Write(wdbVars.StructItemNumData);
+
+                PadBytesAfterSection(outWDBdataWriter);
+
+                UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, 4);
+                offsetUpdatePos += 32;
+
+
+                // records
+                foreach (var recordkey in wdbVars.OutPerRecordData.Keys)
+                {
+                    var currentRecordData = wdbVars.OutPerRecordData[recordkey];
+
+                    outWDBdataWriter.BaseStream.Position = outWDBdataWriter.BaseStream.Length;
+                    secPos = (uint)outWDBdataWriter.BaseStream.Position;
+                    outWDBdataWriter.Write(currentRecordData);
+
+                    PadBytesAfterSection(outWDBdataWriter);
+
+                    UpdateOffsets(outWDBdataWriter, offsetUpdatePos, secPos, (uint)currentRecordData.Length);
+                    offsetUpdatePos += 32;
+                }
+            }
         }
 
 
