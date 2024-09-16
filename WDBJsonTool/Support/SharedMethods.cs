@@ -222,14 +222,5 @@ namespace WDBJsonTool.Support
                 }
             }
         }
-
-
-        public static void ValidateFloatBinary(int fieldNum, ref string value)
-        {
-            if (value.Length > fieldNum)
-            {
-                value = new string('1', fieldNum);
-            }
-        }
     }
 }

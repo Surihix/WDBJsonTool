@@ -41,7 +41,15 @@
 
     public static string IntToBinaryFixed(this int valToParse, int fixAmount)
     {
-        return Convert.ToString(valToParse, 2).PadLeft(fixAmount, '0');
+        if (valToParse < 0)
+        {
+            var computedVal = Convert.ToString(valToParse, 2);
+            return computedVal.Substring(computedVal.Length - fixAmount);
+        }
+        else
+        {
+            return Convert.ToString(valToParse, 2).PadLeft(fixAmount, '0');
+        }
     }
 
 
@@ -77,25 +85,5 @@
 
             return finalComputedVal;
         }
-    }
-
-
-    public static float BinaryToFloat(this string binaryVal, int startPosition, int count)
-    {
-        return 0;
-    }
-
-
-    public static bool IsFloatNegative(this float val)
-    {
-        var checkVal = BitConverter.ToUInt32(BitConverter.GetBytes(val), 0);
-        var isNegative = false;
-
-        if (Convert.ToString(checkVal, 2).PadLeft(32, '0')[0] == '1')
-        {
-            isNegative = true;
-        }
-
-        return isNegative;
     }
 }

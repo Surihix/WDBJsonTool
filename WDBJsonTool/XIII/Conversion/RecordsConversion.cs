@@ -32,8 +32,8 @@ namespace WDBJsonTool.XIII.Conversion
                         case 0:
                             int iTypeDataVal;
                             uint uTypeDataVal;
-                            string fTypeBinary;
-                            //float fTypeDataVal;
+                            int fTypeDataVal;
+                            //string fTypeBinary;
 
                             while (fieldBitsToProcess != 0 && f < wdbVars.FieldCount)
                             {
@@ -121,16 +121,21 @@ namespace WDBJsonTool.XIII.Conversion
                                         }
                                         break;
 
-                                    // float (dump as binary) 
+                                    // float (bitpacked as int)
                                     case "f":
-                                        fTypeBinary = (string)recordData.Value[f];
+                                        fTypeDataVal = Convert.ToInt32(recordData.Value[f]);
 
                                         if (fieldNum != 0)
                                         {
-                                            SharedMethods.ValidateFloatBinary(fieldNum, ref fTypeBinary);
+                                            SharedMethods.ValidateInt(fieldNum, ref fTypeDataVal);
                                         }
 
-                                        Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeBinary}");
+                                        Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeDataVal}");
+
+                                        if (fieldNum == 0)
+                                        {
+                                            fieldNum = 32;
+                                        }
 
                                         if (fieldNum > fieldBitsToProcess)
                                         {
@@ -140,8 +145,15 @@ namespace WDBJsonTool.XIII.Conversion
                                         }
                                         else
                                         {
-                                            fTypeBinary = fTypeBinary.ReverseBinary();
-                                            collectedBinary += fTypeBinary;
+                                            var fTypedataValBinary = fTypeDataVal.IntToBinaryFixed(fieldNum);
+
+                                            if (fTypedataValBinary.Length > fieldNum)
+                                            {
+                                                fTypedataValBinary = fTypedataValBinary.Substring(fTypedataValBinary.Length - fieldNum, fieldNum);
+                                            }
+
+                                            fTypedataValBinary = fTypedataValBinary.ReverseBinary();
+                                            collectedBinary += fTypedataValBinary;
 
                                             fieldBitsToProcess -= fieldNum;
 
@@ -151,6 +163,37 @@ namespace WDBJsonTool.XIII.Conversion
                                             }
                                         }
                                         break;
+
+                                        //// float (dump as binary) 
+                                        //case "f":
+                                        //    fTypeBinary = (string)recordData.Value[f];
+
+                                        //    if (fieldNum != 0)
+                                        //    {
+                                        //        SharedMethods.ValidateFloatBinary(fieldNum, ref fTypeBinary);
+                                        //    }
+
+                                        //    Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeBinary}");
+
+                                        //    if (fieldNum > fieldBitsToProcess)
+                                        //    {
+                                        //        f--;
+                                        //        fieldBitsToProcess = 0;
+                                        //        continue;
+                                        //    }
+                                        //    else
+                                        //    {
+                                        //        fTypeBinary = fTypeBinary.ReverseBinary();
+                                        //        collectedBinary += fTypeBinary;
+
+                                        //        fieldBitsToProcess -= fieldNum;
+
+                                        //        if (fieldBitsToProcess != 0)
+                                        //        {
+                                        //            f++;
+                                        //        }
+                                        //    }
+                                        //    break;
                                 }
                             }
 
