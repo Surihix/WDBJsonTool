@@ -4,7 +4,7 @@
     {
         public static void StartConversion(string inJsonFile)
         {
-            var wdbVars = new WDBVariables();
+            var wdbVars = new WDBVariablesXIII2LR();
 
             JsonDeserializer.DeserializeData(inJsonFile, wdbVars);
 

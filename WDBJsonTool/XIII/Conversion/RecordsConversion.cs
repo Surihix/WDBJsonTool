@@ -5,7 +5,7 @@ namespace WDBJsonTool.XIII.Conversion
 {
     internal class RecordsConversion
     {
-        public static void ConvertRecordsWithFields(WDBVariables wdbVars)
+        public static void ConvertRecordsWithFields(WDBVariablesXIII wdbVars)
         {
             uint stringPos = 1;
             wdbVars.ProcessedStringsDict.Add("", 0);
@@ -33,7 +33,6 @@ namespace WDBJsonTool.XIII.Conversion
                             int iTypeDataVal;
                             uint uTypeDataVal;
                             int fTypeDataVal;
-                            //string fTypeBinary;
 
                             while (fieldBitsToProcess != 0 && f < wdbVars.FieldCount)
                             {
@@ -163,37 +162,6 @@ namespace WDBJsonTool.XIII.Conversion
                                             }
                                         }
                                         break;
-
-                                        //// float (dump as binary) 
-                                        //case "f":
-                                        //    fTypeBinary = (string)recordData.Value[f];
-
-                                        //    if (fieldNum != 0)
-                                        //    {
-                                        //        SharedMethods.ValidateFloatBinary(fieldNum, ref fTypeBinary);
-                                        //    }
-
-                                        //    Console.WriteLine($"{wdbVars.Fields[f]}: {fTypeBinary}");
-
-                                        //    if (fieldNum > fieldBitsToProcess)
-                                        //    {
-                                        //        f--;
-                                        //        fieldBitsToProcess = 0;
-                                        //        continue;
-                                        //    }
-                                        //    else
-                                        //    {
-                                        //        fTypeBinary = fTypeBinary.ReverseBinary();
-                                        //        collectedBinary += fTypeBinary;
-
-                                        //        fieldBitsToProcess -= fieldNum;
-
-                                        //        if (fieldBitsToProcess != 0)
-                                        //        {
-                                        //            f++;
-                                        //        }
-                                        //    }
-                                        //    break;
                                 }
                             }
 
@@ -303,7 +271,7 @@ namespace WDBJsonTool.XIII.Conversion
         }
 
 
-        public static void ConvertRecordsNoFields(WDBVariables wdbVars)
+        public static void ConvertRecordsNoFields(WDBVariablesXIII wdbVars)
         {
             uint stringPos = 1;
             wdbVars.ProcessedStringsDict.Add("", 0);

@@ -4,7 +4,7 @@ namespace WDBJsonTool.XIII2LR.Conversion
 {
     internal class WDBbuilder
     {
-        public static void BuildWDB(WDBVariables wdbVars)
+        public static void BuildWDB(WDBVariablesXIII2LR wdbVars)
         {
             // Build base wdb file
             if (File.Exists(wdbVars.WDBFilePath))

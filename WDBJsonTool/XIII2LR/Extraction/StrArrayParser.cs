@@ -4,7 +4,7 @@ namespace WDBJsonTool.XIII2LR.Extraction
 {
     internal class StrArrayParser
     {
-        public static void SubSections(BinaryReader wdbReader, WDBVariables wdbVars)
+        public static void SubSections(BinaryReader wdbReader, WDBVariablesXIII2LR wdbVars)
         {
             var readPos = wdbReader.BaseStream.Position;
 
@@ -37,7 +37,7 @@ namespace WDBJsonTool.XIII2LR.Extraction
         }
 
 
-        public static void ArrangeArrayData(WDBVariables wdbVars)
+        public static void ArrangeArrayData(WDBVariablesXIII2LR wdbVars)
         {
             // Collect all !!strArray Offsets
             byte[] tmpReadArray;

@@ -5,7 +5,7 @@ namespace WDBJsonTool.XIII.Extraction
 {
     internal class RecordsParser
     {
-        public static void ParseRecordsWithFields(BinaryReader wdbReader, WDBVariables wdbVars, Utf8JsonWriter jsonWriter)
+        public static void ParseRecordsWithFields(BinaryReader wdbReader, WDBVariablesXIII wdbVars, Utf8JsonWriter jsonWriter)
         {
             // Process each record's data
             jsonWriter.WriteStartArray(JsonVariables.RecordsArrayToken);
@@ -225,7 +225,7 @@ namespace WDBJsonTool.XIII.Extraction
         }
 
 
-        public static void ParseRecordsWithoutFields(BinaryReader wdbReader, WDBVariables wdbVars, Utf8JsonWriter jsonWriter)
+        public static void ParseRecordsWithoutFields(BinaryReader wdbReader, WDBVariablesXIII wdbVars, Utf8JsonWriter jsonWriter)
         {
             // Process each record's data
             jsonWriter.WriteStartArray(JsonVariables.RecordsArrayToken);

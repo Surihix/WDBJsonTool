@@ -4,7 +4,7 @@ namespace WDBJsonTool.XIII.Conversion
 {
     internal class WDBbuilder
     {
-        public static void BuildWDB(WDBVariables wdbVars)
+        public static void BuildWDB(WDBVariablesXIII wdbVars)
         {
             Console.WriteLine("");
             Console.WriteLine("");

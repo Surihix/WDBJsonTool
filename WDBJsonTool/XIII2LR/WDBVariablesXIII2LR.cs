@@ -1,6 +1,6 @@
 ﻿namespace WDBJsonTool.XIII2LR
 {
-    internal class WDBVariables
+    internal class WDBVariablesXIII2LR
     {
         // Important variables
         public string? WDBFilePath;

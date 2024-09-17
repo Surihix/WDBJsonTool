@@ -5,7 +5,7 @@ namespace WDBJsonTool.XIII2LR.Extraction
 {
     internal class RecordsParser
     {
-        public static void ProcessRecords(BinaryReader wdbReader, WDBVariables wdbVars, Utf8JsonWriter jsonWriter)
+        public static void ProcessRecords(BinaryReader wdbReader, WDBVariablesXIII2LR wdbVars, Utf8JsonWriter jsonWriter)
         {
             // Process each record's data
             jsonWriter.WriteStartArray(JsonVariables.RecordsArrayToken);

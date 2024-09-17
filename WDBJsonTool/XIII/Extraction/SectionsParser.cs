@@ -5,7 +5,7 @@ namespace WDBJsonTool.XIII.Extraction
 {
     internal class SectionsParser
     {
-        public static void MainSections(BinaryReader wdbReader, WDBVariables wdbVars)
+        public static void MainSections(BinaryReader wdbReader, WDBVariablesXIII wdbVars)
         {
             // Parse main sections
             long currentSectionNamePos = 16;
@@ -91,7 +91,7 @@ namespace WDBJsonTool.XIII.Extraction
         }
 
 
-        public static void MainSectionsToJson(WDBVariables wdbVars, Utf8JsonWriter jsonWriter)
+        public static void MainSectionsToJson(WDBVariablesXIII wdbVars, Utf8JsonWriter jsonWriter)
         {
             jsonWriter.WriteNumber(JsonVariables.RecordCountToken, wdbVars.RecordCount);
 

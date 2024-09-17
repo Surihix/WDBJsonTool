@@ -1,6 +1,6 @@
 ﻿namespace WDBJsonTool.XIII
 {
-    internal class WDBVariables
+    internal class WDBVariablesXIII
     {
         // Important variables
         public string? WDBName;

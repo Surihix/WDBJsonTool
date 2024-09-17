@@ -7,7 +7,7 @@ namespace WDBJsonTool.XIII2LR.Extraction
     {
         public static void StartExtraction(string inWDBfile)
         {
-            var wdbVars = new WDBVariables();
+            var wdbVars = new WDBVariablesXIII2LR();
 
             using (var wdbReader = new BinaryReader(File.Open(inWDBfile, FileMode.Open, FileAccess.Read, FileShare.Read)))
             {

@@ -7,7 +7,7 @@ namespace WDBJsonTool.XIII2LR.Conversion
     {
         private static Dictionary<string, List<string>> _strArrayDataDict = new();
 
-        public static void ConvertRecordsStrArray(WDBVariables wdbVars)
+        public static void ConvertRecordsStrArray(WDBVariablesXIII2LR wdbVars)
         {
             Console.WriteLine("Building strArray....");
             Console.WriteLine("");
@@ -133,7 +133,7 @@ namespace WDBJsonTool.XIII2LR.Conversion
         }
 
 
-        public static void ConvertRecords(WDBVariables wdbVars)
+        public static void ConvertRecords(WDBVariablesXIII2LR wdbVars)
         {
             uint stringPos = 1;
             wdbVars.ProcessedStringsDict.Add("", 0);
@@ -142,7 +142,7 @@ namespace WDBJsonTool.XIII2LR.Conversion
         }
 
 
-        private static void WriteFieldValuesForRecords(WDBVariables wdbVars, uint stringPos)
+        private static void WriteFieldValuesForRecords(WDBVariablesXIII2LR wdbVars, uint stringPos)
         {
             Console.WriteLine("Building records....");
             Console.WriteLine("");

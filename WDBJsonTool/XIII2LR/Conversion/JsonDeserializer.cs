@@ -6,7 +6,7 @@ namespace WDBJsonTool.XIII2LR.Conversion
 {
     internal class JsonDeserializer
     {
-        public static void DeserializeData(string inJsonFile, WDBVariables wdbVars)
+        public static void DeserializeData(string inJsonFile, WDBVariablesXIII2LR wdbVars)
         {
             var jsonData = File.ReadAllBytes(inJsonFile);
 
@@ -29,7 +29,7 @@ namespace WDBJsonTool.XIII2LR.Conversion
         }
 
 
-        private static void DeserializeMainSections(ref Utf8JsonReader jsonReader, WDBVariables wdbVars)
+        private static void DeserializeMainSections(ref Utf8JsonReader jsonReader, WDBVariablesXIII2LR wdbVars)
         {
             // Get recordCount
             JsonMethods.CheckTokenType("PropertyName", ref jsonReader, JsonVariables.RecordCountToken);
@@ -182,7 +182,7 @@ namespace WDBJsonTool.XIII2LR.Conversion
         }
 
 
-        private static void DeserializeRecords(ref Utf8JsonReader jsonReader, WDBVariables wdbVars)
+        private static void DeserializeRecords(ref Utf8JsonReader jsonReader, WDBVariablesXIII2LR wdbVars)
         {
             // Get record values
             JsonMethods.CheckTokenType("PropertyName", ref jsonReader, JsonVariables.RecordsArrayToken);

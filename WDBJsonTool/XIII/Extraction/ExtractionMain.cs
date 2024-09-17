@@ -7,7 +7,7 @@ namespace WDBJsonTool.XIII.Extraction
     {
         public static void StartExtraction(string inWDBfile, bool shouldIgnoreKnown)
         {
-            var wdbVars = new WDBVariables
+            var wdbVars = new WDBVariablesXIII
             {
                 IgnoreKnown = shouldIgnoreKnown
             };
