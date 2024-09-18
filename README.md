@@ -11,8 +11,13 @@ This program allows you to convert the WDB database files from the FF13 game tri
 <br>``-x`` Converts the WDB file's data into a new JSON file
 <br>``-xi`` Converts the WDB file's data into a new JSON file without the fieldnames (only when gamecode is -ff131)
 <br>``-c`` Converts the data in the JSON file into a new WDB file
-<br>``-?`` or ``-h`` Display the help page. will also display few argument examples too.
-<br>
+<br>``-?`` Display the help page. will also display few argument examples too.
+
+<br>Commandline usage examples:
+<br>``WDBJsonTool.exe -?``
+<br>``WDBJsonTool.exe -ff131 -x "auto_clip.wdb" ``
+<br>``WDBJsonTool.exe -ff131 -xi "auto_clip.wdb" ``
+<br>``WDBJsonTool.exe -ff131 -c "auto_clip.json" ``
 
 ## Important notes
 - The program requires .net 6.0 Desktop Runtime to be installed on your PC. you can get it from this [page](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
