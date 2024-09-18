@@ -15,6 +15,8 @@ This program allows you to convert the WDB database files from the FF13 game tri
 <br>
 
 ## Important notes
+- The program requires .net 6.0 Desktop Runtime to be installed on your PC. you can get it from this [page](https://dotnet.microsoft.com/en-us/download/dotnet/6.0).
+
 - The WDB file or JSON file has to be specified after the game code and the tool action argument switches.
 
 - Some of the JSON files will be quite large and its recommended to use a text editor that doesn't hang or freeze when viewing/editing such large JSON files. personally, I use VS code to edit these JSON files and would recommend using it if you are unsure as to which text editor to use.
