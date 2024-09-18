@@ -6,7 +6,6 @@ This program allows you to convert the WDB database files from the FF13 game tri
 <br>``-ff131`` For FF13-1 WDB files
 <br>``-ff132`` For FF13-2 and FF13-LR 's WDB files
 
-
 <br>**Tool actions:**
 <br>``-x`` Converts the WDB file's data into a new JSON file
 <br>``-xi`` Converts the WDB file's data into a new JSON file without the fieldnames (only when gamecode is -ff131)
