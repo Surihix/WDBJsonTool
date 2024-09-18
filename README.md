@@ -15,11 +15,17 @@ This program allows you to convert the WDB database files from the FF13 game tri
 <br>
 
 ## Important notes
-- Some of the JSON files will be quite large and its recommended to use a text editor that doesn't hang up or freeze when viewing/editing such files. personally, I use VS code to edit these JSON files and would recommend using it, if you are unsure as to which text editor to use for editing these JSON files.
+- The WDB file or JSON file has to be specified after the game code and the tool action argument switches.
 
-- If you are adding new records in the WDB file, make sure to first increase the `recordCount` property's value present at the start portion of the JSON file. after that, add your new records according to the alphabetical order.
+- Some of the JSON files will be quite large and its recommended to use a text editor that doesn't hang or freeze when viewing/editing such large JSON files. personally, I use VS code to edit these JSON files and would recommend using it if you are unsure as to which text editor to use.
 
-- Please report any issues that you encounter with the converted JSON/WDB files here or in the Nova Chrysalia modding discord server.
+- Field names will be present in the JSON file only for some of 13-1's WDB files. refer to this [page](https://github.com/LR-Research-Team/Datalog/wiki/WDB-Field-Names) for information about the field names.
+
+- If you are adding new records in the WDB file, make sure to first increase the `recordCount` property's value present at the start of the JSON file. after that, add your new records according to the alphabetical order which can require adding them in between two existing records or after the last existing record.
+
+- When editing numerical fields, make sure that your number does not exceed the bit amount value given in the field name.
+
+- Please report any problems that you encounter with the converted JSON/WDB files by opening an issue page detailing the issue here or in the "Fabula Nova Crystallis: Modding Community" discord server.
 
 ## For developers
-- Refer to this [page](https://github.com/LR-Research-Team/Datalog/wiki/WDB) for information about the structure of the WDB file.
+- Refer to this [page](https://github.com/LR-Research-Team/Datalog/wiki/WDB) for information about the file structure of the WDB file.
