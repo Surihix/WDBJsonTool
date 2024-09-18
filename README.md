@@ -13,7 +13,7 @@ This program allows you to convert the WDB database files from the FF13 game tri
 <br>``-?`` Display the help page. will also display few argument examples too.
 
 <br>Commandline usage examples:
-<br>``WDBJsonTool.exe -?``
+<br>``WDBJsonTool.exe -? ``
 <br>``WDBJsonTool.exe -ff131 -x "auto_clip.wdb" ``
 <br>``WDBJsonTool.exe -ff131 -xi "auto_clip.wdb" ``
 <br>``WDBJsonTool.exe -ff131 -c "auto_clip.json" ``
