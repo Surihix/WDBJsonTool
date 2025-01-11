@@ -26,6 +26,11 @@
             { "party", "Party" },
             { "succession", "Succession" },
             { "bt_summon", "bt_summon" },
+            { "movie", "movie" },
+            { "actioneffect", "ActionEffect" },
+            { "attreffect", "AttributeEffectResource" },
+            { "attreffectstate", "AttributeEffectStateResource" },
+            { "bt_ability", "BattleAbility" },
 
             // win32
             { "movie_items.win32", "movie_items" },
@@ -336,6 +341,94 @@
                 new List<string>()
                 {
                     "uCPCost", "sAbilityID", "u4Role", "u4CrystalStage", "u8NodeType", "u16NodeVal"
+                }
+            },
+
+            {
+                "movie",
+                new List<string>()
+                {
+                    "sZoneName0", "sZoneName1"
+                }
+            },
+
+            {
+                "ActionEffect",
+                new List<string>()
+                {
+                    "sEffectId", "iEffectArg1", "sSoundId"
+                }
+            },
+
+            {
+                "AttributeEffectResource",
+                new List<string>()
+                {
+                    "sFootSoundResourceNameDefaultAttr", "sFootSoundResourceNameDrySoilAttr",
+                    "sFootSoundResourceNameDampSoilAttr", "sFootSoundResourceNameGrassAttr",
+                    "sFootSoundResourceNameBushAttr", "sFootSoundResourceNameSandAttr",
+                    "sFootSoundResourceNameWoodAttr", "sFootSoundResourceNameBoardAttr",
+                    "sFootSoundResourceNameFlooringAttr", "sFootSoundResourceNameStoneAttr",
+                    "sFootSoundResourceNameGravelAttr", "sFootSoundResourceNameIronAttr",
+                    "sFootSoundResourceNameThinIronAttr", "sFootSoundResourceNameClothAttr",
+                    "sFootSoundResourceNameEartenwareAttr", "sFootSoundResourceNameCrystalAttr",
+                    "sFootSoundResourceNameGlassAttr", "sFootSoundResourceNameIceAttr",
+                    "sFootSoundResourceNameWaterAttr", "sFootSoundResourceNameAsphaltAttr",
+                    "sFootSoundResourceNameNoneAttr", "sFootSoundResourceNameWireNetAttr",
+                    "sFootSoundResourceNameBranchOfMachineAttr", "sFootSoundResourceNameBranchOfNatureAttr",
+                    "sFootSoundResourceNameCorkAttr", "sFootSoundResourceNameMarbleAttr",
+                    "sFootSoundResourceNameHologramAttr", "sFootVfxResourceNameDefaultAttr",
+                    "sFootVfxResourceNameDrySoilAttr", "sFootVfxResourceNameDampSoilAttr",
+                    "sFootVfxResourceNameGrassAttr", "sFootVfxResourceNameBushAttr",
+                    "sFootVfxResourceNameSandAttr", "sFootVfxResourceNameWoodAttr",
+                    "sFootVfxResourceNameBoardAttr", "sFootVfxResourceNameFlooringAttr",
+                    "sFootVfxResourceNameStoneAttr", "sFootVfxResourceNameGravelAttr",
+                    "sFootVfxResourceNameIronAttr", "sFootVfxResourceNameThinIronAttr",
+                    "sFootVfxResourceNameClothAttr", "sFootVfxResourceNameEartenwareAttr",
+                    "sFootVfxResourceNameCrystalAttr", "sFootVfxResourceNameGlassAttr",
+                    "sFootVfxResourceNameIceAttr", "sFootVfxResourceNameWaterAttr",
+                    "sFootVfxResourceNameAsphaltAttr", "sFootVfxResourceNameNoneAttr",
+                    "sFootVfxResourceNameWireNetAttr", "sFootVfxResourceNameBranchOfMachineAttr",
+                    "sFootVfxResourceNameBranchOfNatureAttr", "sFootVfxResourceNameCorkAttr",
+                    "sFootVfxResourceNameMarbleAttr", "sFootVfxResourceNameHologramAttr"
+                }
+            },
+
+            {
+                "AttributeEffectStateResource",
+                new List<string>()
+                {
+                    "sWalk", "sRun", "sJump", "sRetreat", "sLanding", "sSliding", "sSquat", "sStand", "sFly"
+                }
+            },
+
+            {
+                "BattleAbility",
+                new List<string>()
+                {
+                    "sStringResId", "sInfoStResId", "sScriptId", "sAblArgStr0", "sAblArgStr1",
+                    "sAutoAblStEff0", "fDistanceMin", "fDistanceMax", "fMaxJumpHeight", "fYDistanceMin",
+                    "fYDistanceMax", "fAirJpHeight", "fAirJpTime", "sReplaceAirAttack", "sReplaceAirAir",
+                    "sReplaceRangeAtk", "sReplaceFinAtk", "sReplaceEnAttr", "iExceptionID", "sActionId0",
+                    "sActionId1", "sActionId2", "sActionId3", "sRtDamSrc", "sRefDamSrc", "sSubRefDamSrc",
+                    "sSlamDamSrc", "sCamArtsSeqId0", "sCamArtsSeqId1", "sCamArtsSeqId2", "sCamArtsSeqId3",
+                    "sRedirectAbility0", "sRedirectTo0", "sRedirectAbility1", "sRedirectTo1",
+                    "sRedirectAbility2", "sRedirectTo2", "sRedirectAbility3", "sRedirectTo3", "sSysEffId0",
+                    "iSysEffArg0", "sSysSndId0", "sRtEffId0", "iRtEffArg0", "sRtSndId0", "sRtEffId1",
+                    "iRtEffArg1", "sRtSndId1", "sRtEffId2", "iRtEffArg2", "sRtSndId2", "sRtEffId3",
+                    "iRtEffArg3", "sRtSndId3", "sRtEffId4", "iRtEffArg4", "sRtSndId4", "u1ComAbility",
+                    "u1RsvFlag0", "u1RsvFlag1", "u1RsvFlag2", "u1RsvFlag3", "u1RsvFlag4", "u1RsvFlag5",
+                    "u1RsvFlag6", "u4ArtsNameHideKd", "u16ArtsNameFrame", "u4UseRole", "u8AblSndKind",
+                    "u4MenuCategory", "i16MenuSortNo", "u1NoDespel", "i16ScriptArg0", "i16ScriptArg1",
+                    "u8AbilityKind", "u4TargetListKind", "i16AblArgInt0", "u4UpAblKind", "i16AblArgInt1",
+                    "i16AtbCount", "i16AtRnd", "i16KeepVal", "i16IntRsv0", "i16IntRsv1", "u1TgFoge",
+                    "u1NoBackStep", "u1AIWanderFlag", "u16TgElemId", "u10OpProp0", "u1AutoAblStEfEd0",
+                    "u1CheckAutoRpl", "u1SeqParts", "i16AutoAblStEfTi0", "u4YRgCheckType", "u4AtDistKind",
+                    "u4JumpAttackType", "u1SeqTermination", "u5ActSelType", "u4LoopFinCond", "u16LoopFinArg",
+                    "u4RedirectMargeNof0", "i16RefDamSrcRpt", "i16SubRefDamSrcRp", "i8AreaRad",
+                    "u8CamArtsSelType", "u4RedirectMargeNof1", "u4RedirectMargeNof2", "u4RedirectMargeNof3",
+                    "u16SysEffPos0", "u16RtEffPos0", "u16RtEffPos1", "u16RtEffPos2", "u16RtEffPos3",
+                    "u16RtEffPos4"
                 }
             }
         };
