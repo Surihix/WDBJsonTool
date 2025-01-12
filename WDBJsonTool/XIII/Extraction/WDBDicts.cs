@@ -348,7 +348,7 @@
                 "movie",
                 new List<string>()
                 {
-                    "sZoneName0", "sZoneName1"
+                    "sZone0", "sZone1"
                 }
             },
 
