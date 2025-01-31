@@ -31,6 +31,7 @@
             { "attreffect", "AttributeEffectResource" },
             { "attreffectstate", "AttributeEffectStateResource" },
             { "bt_ability", "BattleAbility" },
+            { "mapset", "MapSet" },
 
             // win32
             { "movie_items.win32", "movie_items" },
@@ -131,6 +132,37 @@
             { "crystal_sazh", "crystal" },
             { "crystal_snow", "crystal" },
             { "crystal_vanille", "crystal" },
+
+            //db/bg
+            { "mapset_loc002", "MapSet" },
+            { "mapset_loc005", "MapSet" },
+            { "mapset_loc006", "MapSet" },
+            { "mapset_loc007", "MapSet" },
+            { "mapset_loc008", "MapSet" },
+            { "mapset_loc010", "MapSet" },
+            { "mapset_loc012", "MapSet" },
+            { "mapset_loc013", "MapSet" },
+            { "mapset_loc014", "MapSet" },
+            { "mapset_loc015", "MapSet" },
+            { "mapset_loc016", "MapSet" },
+            { "mapset_loc017", "MapSet" },
+            { "mapset_loc018", "MapSet" },
+            { "mapset_loc019", "MapSet" },
+            { "mapset_loc020", "MapSet" },
+            { "mapset_loc021", "MapSet" },
+            { "mapset_loc022", "MapSet" },
+            { "mapset_loc023", "MapSet" },
+            { "mapset_loc024", "MapSet" },
+            { "mapset_loc025", "MapSet" },
+            { "mapset_loc026", "MapSet" },
+            { "mapset_loc027", "MapSet" },
+            { "mapset_loc029", "MapSet" },
+            { "mapset_loc030", "MapSet" },
+            { "mapset_loc102", "MapSet" },
+            { "mapset_loc103", "MapSet" },
+            { "mapset_loc104", "MapSet" },
+            { "mapset_loc105", "MapSet" },
+            { "mapset_loc107", "MapSet" },
         };
 
 
@@ -429,6 +461,23 @@
                     "u8CamArtsSelType", "u4RedirectMargeNof1", "u4RedirectMargeNof2", "u4RedirectMargeNof3",
                     "u16SysEffPos0", "u16RtEffPos0", "u16RtEffPos1", "u16RtEffPos2", "u16RtEffPos3",
                     "u16RtEffPos4"
+                }
+            },
+
+            {
+                "MapSet",
+                new List<string>()
+                {
+                    "iMemorySizeLimit", "iVideoMemoryLimit", "sScriptIdOnLoaded", "sMapNameResourceId",
+                    "sBattleFreeSpaceResourceId", "i20LoadingTime", "i11LocationNum", "i16FieldSceneDataNum",
+                    "i16BattleSceneDataNum", "i12PartyPositionMarkerGroup", "i10FieldMapNum0", "i10FieldMapNum1",
+                    "i10FieldMapNum2", "i10FieldMapNum3", "i10FieldMapNum4", "i10FieldMapNum5", "i10FieldMapNum6",
+                    "i10FieldMapNum7", "i10FieldMapNum8", "i10FieldMapNum9", "i10FieldMapNum10",
+                    "i10FieldMapNum11", "i10FieldMapNum12", "i10FieldMapNum13", "i10FieldMapNum14",
+                    "i10FieldMapNum15", "i10FieldMapNum16", "i10FieldMapNum17", "i10FieldMapNum18",
+                    "i10FieldMapNum19", "i10VfxMapNum0", "i10VfxMapNum1", "i10VfxMapNum2", "i10VfxMapNum3",
+                    "i10BattleMapNum0", "i10BattleMapNum1", "i10BattleMapNum2", "i10BattleMapNum3",
+                    "i10BattleMapNum4", "i10BattleMapNum5"
                 }
             }
         };
