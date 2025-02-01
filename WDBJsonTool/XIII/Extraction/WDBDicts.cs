@@ -288,7 +288,7 @@
                     "sItemNameStringId", "sHelpStringId", "sScriptId", "uPurchasePrice", "uSellPrice",
                     "u8MenuIcon", "u8ItemCategory", "i16ScriptArg0", "i16ScriptArg1", "u1IsUseBattleMenu",
                     "u1IsUseMenu", "u1IsDisposable", "u1IsSellable", "u5Rank", "u6Genre", "u1IsIgnoreGenre",
-                    "u16SortAllByKCategory", "u16SortCategoryByCategory", "u16Experience", "i16Mulitplier",
+                    "u16SortAllByKCategory", "u16SortCategoryByCategory", "u16Experience", "i8Mulitplier",
                     "u1IsUseItemChange"
                 }
             },
