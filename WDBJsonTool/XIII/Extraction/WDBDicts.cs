@@ -32,6 +32,9 @@
             { "attreffectstate", "AttributeEffectStateResource" },
             { "bt_ability", "BattleAbility" },
             { "mapset", "MapSet" },
+            { "emotion_voice", "EmotionVoice" },
+            { "eventflag", "EventFlag" },
+            { "shop", "Shop" },
 
             // win32
             { "movie_items.win32", "movie_items" },
@@ -478,6 +481,40 @@
                     "i10FieldMapNum19", "i10VfxMapNum0", "i10VfxMapNum1", "i10VfxMapNum2", "i10VfxMapNum3",
                     "i10BattleMapNum0", "i10BattleMapNum1", "i10BattleMapNum2", "i10BattleMapNum3",
                     "i10BattleMapNum4", "i10BattleMapNum5"
+                }
+            },
+
+            {
+                "EmotionVoice",
+                new List<string>()
+                {
+                    "u4RandomMax0", "u4RandomMax1", "u4RandomMax2", "u4RandomMax3", "u4RandomMax4",
+                    "u4RandomMax5", "u4RandomMax6", "u4RandomMax7", "u4RandomMax8", "u4RandomMax9",
+                    "u4AIRandomMax0", "u4AIRandomMax1", "u4AIRandomMax2", "u4AIRandomMax3", "u4AIRandomMax4",
+                    "u4AIRandomMax5", "u4AIRandomMax6", "u4AIRandomMax7", "u4AIRandomMax8", "u4AIRandomMax9"
+                }
+            },
+
+            {
+                "EventFlag",
+                new List<string>()
+                {
+                    "iFlagIndex"
+                }
+            },
+
+            {
+                "Shop",
+                new List<string>()
+                {
+                    "sFlagItemId", "sUnlockEventID", "sShopNameLabel", "sSignId", "sExplanationLabel",
+                    "sUnkStringVal1", "sItemLabel1", "sItemLabel2", "sItemLabel3", "sItemLabel4",
+                    "sItemLabel5", "sItemLabel6", "sItemLabel7", "sItemLabel8", "sItemLabel9", "sItemLabel10",
+                    "sItemLabel11", "sItemLabel12", "sItemLabel13", "sItemLabel14", "sItemLabel15",
+                    "sItemLabel16", "sItemLabel17", "sItemLabel18", "sItemLabel19", "sItemLabel20",
+                    "sItemLabel21", "sItemLabel22", "sItemLabel23", "sItemLabel24", "sItemLabel25",
+                    "sItemLabel26", "sItemLabel27", "sItemLabel28", "sItemLabel29", "sItemLabel30",
+                    "sItemLabel31", "sItemLabel32", "u4Version", "u13ZoneNum"
                 }
             }
         };
