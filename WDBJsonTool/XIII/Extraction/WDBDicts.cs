@@ -35,6 +35,8 @@
             { "emotion_voice", "EmotionVoice" },
             { "eventflag", "EventFlag" },
             { "shop", "Shop" },
+            { "bt_auto_ability", "BattleAutoAbility" },
+            { "charaset", "CharaSet" },
 
             // win32
             { "movie_items.win32", "movie_items" },
@@ -515,6 +517,40 @@
                     "sItemLabel21", "sItemLabel22", "sItemLabel23", "sItemLabel24", "sItemLabel25",
                     "sItemLabel26", "sItemLabel27", "sItemLabel28", "sItemLabel29", "sItemLabel30",
                     "sItemLabel31", "sItemLabel32", "u4Version", "u13ZoneNum"
+                }
+            },
+
+            {
+                "BattleAutoAbility",
+                new List<string>()
+                {
+                    "sStringResId", "sInfoStResId", "sScriptId", "sAutoAblArgStr0", "sAutoAblArgStr1",
+                    "u1RsvFlag0", "u1RsvFlag1", "u1RsvFlag2", "u1RsvFlag3", "u4UseRole", "u4MenuCategory",
+                    "i16MenuSortNo", "i16ScriptArg0", "i16ScriptArg1", "u8AutoAblKind", "i16AutoAblArgInt0",
+                    "i16AutoAblArgInt1", "i16WepLvArg0", "i16WepLvArg1"
+                }
+            },
+
+            {
+                "CharaSet",
+                new List<string>()
+                {
+                    "iMemorySizeLimit", "iVideoMemorySizeLimit", "sCharaSpecId0", "sCharaSpecId1",
+                    "sCharaSpecId2", "sCharaSpecId3", "sCharaSpecId4", "sCharaSpecId5", "sCharaSpecId6",
+                    "sCharaSpecId7", "sCharaSpecId8", "sCharaSpecId9", "sCharaSpecId10", "sCharaSpecId11",
+                    "sCharaSpecId12", "sCharaSpecId13", "sCharaSpecId14", "sCharaSpecId15", "sCharaSpecId16",
+                    "sCharaSpecId17", "sCharaSpecId18", "sCharaSpecId19", "sCharaSpecId20", "sCharaSpecId21",
+                    "sCharaSpecId22", "sCharaSpecId23", "sCharaSpecId24", "sCharaSpecId25", "sCharaSpecId26",
+                    "sCharaSpecId27", "sCharaSpecId28", "sCharaSpecId29", "sCharaSpecId30", "sCharaSpecId31",
+                    "sCharaSpecId32", "sCharaSpecId33", "sCharaSpecId34", "sCharaSpecId35", "sCharaSpecId36",
+                    "sCharaSpecId37", "sCharaSpecId38", "sCharaSpecId39", "sCharaSpecId40", "sCharaSpecId41",
+                    "sCharaSpecId42", "sCharaSpecId43", "sCharaSpecId44", "sCharaSpecId45", "sCharaSpecId46",
+                    "sCharaSpecId47", "sCharaSpecId48", "sCharaSpecId49", "sCharaSpecId50", "sCharaSpecId51",
+                    "sCharaSpecId52", "sCharaSpecId53", "sCharaSpecId54", "sCharaSpecId55", "sCharaSpecId56",
+                    "sCharaSpecId57", "sCharaSpecId58", "sCharaSpecId59","sCharaSpecId60", "sCharaSpecId61",
+                    "sCharaSpecId62","sCharaSpecId63", "u1PartyLoadRequestIndex0", "u1PartyLoadRequestIndex1",
+                    "u1PartyLoadRequestIndex2", "u1PartyLoadRequestIndex3", "u1PartyLoadRequestIndex4",
+                    "u1PartyLoadRequestIndex5"
                 }
             }
         };
