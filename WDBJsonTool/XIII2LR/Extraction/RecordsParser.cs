@@ -43,6 +43,7 @@ namespace WDBJsonTool.XIII2LR.Extraction
                             uint strArrayTypeDataVal;
                             string strArrayTypeDictKey;
                             List<string> strArrayTypeDictList;
+                            string strArrayTypeStringVal;
 
                             while (fieldBitsToProcess != 0 && f < wdbVars.FieldCount)
                             {
@@ -174,8 +175,17 @@ namespace WDBJsonTool.XIII2LR.Extraction
                                             strArrayTypeDictKey = wdbVars.Fields[f];
                                             strArrayTypeDictList = wdbVars.StrArrayDict[strArrayTypeDictKey];
 
-                                            Console.WriteLine($"{strArrayTypeDictKey}: {strArrayTypeDictList[(int)strArrayTypeDataVal]}");
-                                            jsonWriter.WriteString(strArrayTypeDictKey, strArrayTypeDictList[(int)strArrayTypeDataVal]);
+                                            if (strArrayTypeDataVal < strArrayTypeDictList.Count)
+                                            {
+                                                strArrayTypeStringVal = strArrayTypeDictList[(int)strArrayTypeDataVal];
+                                            }
+                                            else
+                                            {
+                                                strArrayTypeStringVal = "";
+                                            }
+
+                                            Console.WriteLine($"{strArrayTypeDictKey}: {strArrayTypeStringVal}");
+                                            jsonWriter.WriteString(strArrayTypeDictKey, strArrayTypeStringVal);
 
                                             if (fieldBitsToProcess != 0)
                                             {
