@@ -37,6 +37,7 @@
             { "shop", "Shop" },
             { "bt_auto_ability", "BattleAutoAbility" },
             { "charaset", "CharaSet" },
+            { "mission", "mission" },
 
             // win32
             { "movie_items.win32", "movie_items" },
@@ -236,7 +237,7 @@
             { "MonsterBook",
                 new List<string>()
                 {
-                    "u6MbookId", "u9SortId", "u9PictureId", "u1Unk"
+                    "u6MbookId", "u9SortId", "u9PictureId", "u1UnkBool"
                 }
             },
 
@@ -551,6 +552,19 @@
                     "sCharaSpecId62","sCharaSpecId63", "u1PartyLoadRequestIndex0", "u1PartyLoadRequestIndex1",
                     "u1PartyLoadRequestIndex2", "u1PartyLoadRequestIndex3", "u1PartyLoadRequestIndex4",
                     "u1PartyLoadRequestIndex5"
+                }
+            },
+
+            {
+                "mission",
+                new List<string>()
+                {
+                    "sMissionTitleStringId", "sMissionExplanationStringId", "sMissionTargetStringId",
+                    "sMissionPosStringId", "sMissionMarkPosStringId", "sPosMarkerName", "sTreasureBoxId0",
+                    "sTreasureBoxId1", "sTreasureBoxId2", "sCharasetId0", "sCharasetId1", "sCharasetId2",
+                    "sCharasetId3", "sCharaspecId0", "sCharaspecId1", "sCharaspecId2", "sCharaspecId3",
+                    "sCharaspecId4", "sAreaActivationName", "iBattleSceneNum", "u8ZoneNum", "u6IndexInMapMenu",
+                    "u4Class", "u6MissionPictureId", "u1UnkBool1", "u1UnkBool2", "u1UnkBool3"
                 }
             }
         };
