@@ -38,6 +38,7 @@
             { "bt_auto_ability", "BattleAutoAbility" },
             { "charaset", "CharaSet" },
             { "mission", "mission" },
+            { "fieldcamera", "FieldCamera" },
 
             // win32
             { "movie_items.win32", "movie_items" },
@@ -565,6 +566,35 @@
                     "sCharasetId3", "sCharaspecId0", "sCharaspecId1", "sCharaspecId2", "sCharaspecId3",
                     "sCharaspecId4", "sAreaActivationName", "iBattleSceneNum", "u8ZoneNum", "u6IndexInMapMenu",
                     "u4Class", "u6MissionPictureId", "u1UnkBool1", "u1UnkBool2", "u1UnkBool3"
+                }
+            },
+
+            {
+                "FieldCamera",
+                new List<string>()
+                {
+                    "fFreeCameraRotationInterporationSpeedAdjustMode", "fFreeCameraRunStopMoveSpeed",
+                    "fFreeCameraAimRotationSpeedAtMoving", "fFreeCameraCompositionAimRate",
+                    "fFreeCameraAimHeight", "fFreeCameraAimHeightDuringWatchingFoot",
+                    "fCollisionSolveInterporationRateX", "fCollisionSolveInterporationRateY",
+                    "fCollisionSolveInterporationRateZ", "fInterporationRateAtForward",
+                    "fInterporationRateAtBack", "fInterporationRateAtForwardRunning",
+                    "fInterporationRateAtBackRunning", "fFreeCameraYAxisRotateAttenuationRateRunning",
+                    "fFreeCameraXAxisRotateAttenuationRateRunning", "fFreeCameraYAxisRotateAttenuationRate",
+                    "fFreeCameraXAxisRotateAttenuationRate", "fFreeCameraYaxisRotationSpeedRate",
+                    "fFreeCameraYaxisRotationSpeedRateAtIdle", "fFreeCameraXaxisRotationSpeedRate",
+                    "fFreeCameraXaxisRotationSpeedRateAtIdle", "fFreeCameraFollowingSpeedRate",
+                    "fCharacterChangingAlphaTime", "fRailCameraFollowingDistance",
+                    "fRailCameraFollowingRate", "fRailCameraYOffset", "fCameraNearZDefault",
+                    "fCameraFarZDefault", "fAspectRateDefault", "f9FreeCameraEyeHeight",
+                    "f10EyeAimDistanceAtMoving", "f10EyeAimDistanceDuringWatchingFoot",
+                    "f10EyeAimDistanceAtStop", "f14FreeCameraeFov", "f14CompositAimChangeAngleThrreshold",
+                    "f16DelayTimeBetweenPlayerAndCamera", "f18CharacterChangingAlphaDistanceMax",
+                    "f14FreeCameraXaxisRotationLimitAngle", "f18CharacterChangingAlphaDistanceMax_PC",
+                    "f14FreeRailSwitchAngle", "f18CharacterChangingAlphaDistanceMin", "f14CameraRadius",
+                    "f18CharacterChangingAlphaDistanceMin_PC", "f14FreeCameraPullupLimitAngle",
+                    "f19CameraInterporationTimeDefault", "f18CharacterChangingAlphaLosen",
+                    "f18FreeCameraPullupTimeAtJump"
                 }
             }
         };
